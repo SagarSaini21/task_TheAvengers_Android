@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:layout_margin="20dp"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="0dp">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TaskDetailActivity">
+
+
+    <LinearLayout
+        android:id="@+id/ll_back"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/back_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="18dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            app:srcCompat="@drawable/ic_back" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/txt_task_title"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:fontFamily="@font/poppins_bold"
+        android:text="@string/task_title"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/ll_back"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/txt_created_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:fontFamily="@font/poppins"
+        android:text="@string/created_date"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/ll_back"
+        app:layout_constraintTop_toBottomOf="@+id/txt_task_title"/>
+
+    <LinearLayout
+        android:id="@+id/ll_delete"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:background="@drawable/delete_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txt_task_title"
+        app:layout_constraintTop_toTopOf="parent" >
+        <ImageView
+            android:id="@+id/img_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            app:srcCompat="@drawable/ic_delete" />
+    </LinearLayout>
+
+    <!-- viewpager to show images -->
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPagerMain"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_delete" />
+    <LinearLayout
+        android:id="@+id/ll_play_audio"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/edittext_bg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewPagerMain">
+
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/ic_play"/>
+        <TextView
+            android:id="@+id/txt_due_date"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:padding="10dp"
+            android:textSize="14sp"
+            android:gravity="left|center"
+            android:fontFamily="@font/poppins"
+            android:text="@string/play_audio"
+            android:background="@android:color/transparent"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/txt_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cooking_decscription"
+        android:textSize="14sp"
+        android:padding="10dp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/poppins_medium"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_play_audio"/>
+
+    <TextView
+        android:id="@+id/tex_progress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/sub_task_progress"
+        android:textSize="14sp"
+        android:layout_margin="10dp"
+        android:fontFamily="@font/poppins_bold"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_description"/>
+
+    <ProgressBar
+        android:id="@+id/task_progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:progress="25"
+        android:progressDrawable="@drawable/custom_progress_bar"
+        android:layout_marginBottom="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_height="15dp"
+        android:layout_margin="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tex_progress"/>
+
+    <LinearLayout
+        android:id="@+id/ll_edtCategory"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/edittext_bg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/task_progress">
+        <EditText
+            android:id="@+id/edt_sub_task"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:padding="10dp"
+            android:hint="@string/enter_sub_task"
+            android:background="@android:color/transparent"
+            android:fontFamily="@font/poppins"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_add"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:layout_margin="10dp"
+        android:background="@drawable/back_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ll_edtCategory"
+        app:layout_constraintTop_toBottomOf="@+id/task_progress" >
+        <ImageView
+            android:id="@+id/img_add_sub_task"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            app:srcCompat="@drawable/ic_add" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/view_subtasks"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_margin="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_add"/>
+
+    <Button
+        android:id="@+id/btn_mark_completed"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/primary_button"
+        android:textColor="@color/white"
+        android:elevation="20sp"
+        android:text="@string/mark_completed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_subtasks"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

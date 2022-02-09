@@ -1,3 +1,25 @@
 <resources>
     <string name="app_name">task_TheAvengers_Android</string>
+    <string name="create_a_new_task">Create new task</string>
+    <string name="all_your_tasks_in_one_place">All your tasks in one place!</string>
+    <string name="enter_title">Enter title</string>
+    <string name="add_new">ADD NEW</string>
+    <string name="select_category">Select Category</string>
+    <string name="task_description">Task Description</string>
+    <string name="select_due_date">Select Due Date</string>
+    <string name="add_audio">Add Audio</string>
+    <string name="add_images">Add Images</string>
+    <string name="create_task">Create Task</string>
+    <string name="task_title">Cooking</string>
+    <string name="created_date">Created on: 31 January,2022</string>
+    <string name="play_audio">Play Audio</string>
+    <string name="cooking_decscription">Cooking, cookery, or culinary arts is the art, science,and craft of using heat to prepare food for consumption.</string>
+    <string name="sub_task_progress">SUB TASK PROGRESS</string>
+    <string name="enter_sub_task">Enter Sub task</string>
+    <string name="mark_completed">MARK COMPLETED</string>
+    <string name="categories">Categories</string>
+    <string name="manage_your_categories">Manage your categories</string>
+    <string name="add">ADD</string>
+    <string name="category_title">Cooking</string>
+    <string name="sub_task_title">Sub task 1</string>
 </resources>

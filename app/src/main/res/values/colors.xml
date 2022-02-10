@@ -11,4 +11,5 @@
   <color name="text_grey">#A3A3A3</color>
   <color name="text_light_grey">#BEBEBE</color>
   <color name="secondary_color">#CBBBFA</color>
+    <color name="progress_bg_color">#80FFFFFF</color>
 </resources>

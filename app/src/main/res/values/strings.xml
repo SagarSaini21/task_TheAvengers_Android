@@ -22,4 +22,8 @@
     <string name="add">ADD</string>
     <string name="category_title">Cooking</string>
     <string name="sub_task_title">Sub task 1</string>
+    <string name="enter_category_name">Enter category name</string>
+    <string name="update_category_name">Category name</string>
+    <string name="save_category">Save</string>
+    <string name="cancel_save_category">Cancel</string>
 </resources>

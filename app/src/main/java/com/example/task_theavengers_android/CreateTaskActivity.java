@@ -17,6 +17,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -24,8 +25,12 @@ import android.widget.ImageButton;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.MediaController;
+import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
+
+import com.example.task_theavengers_android.entity.Category;
+import com.example.task_theavengers_android.util.TaskRoomDatabase;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -50,11 +55,16 @@ public class CreateTaskActivity extends AppCompatActivity {
 
     private DatePickerDialog datePickerDialog;
     private Button dateButton;
+    private Spinner spinner_category;
+    private TaskRoomDatabase taskRoomDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_task);
+        // Get Singleton class of Task Room DB
+        taskRoomDatabase = TaskRoomDatabase.getInstance(this);
+
         title=findViewById(R.id.edt_title);
         categorySelected=findViewById(R.id.edt_category);
         desc=findViewById(R.id.edt_description);
@@ -65,6 +75,18 @@ public class CreateTaskActivity extends AppCompatActivity {
         dateButton = findViewById(R.id.datePickerButton);
         dateButton.setText(getTodaysDate());
 
+        // Populate spinner with catagories from Room DB
+        spinner_category = findViewById(R.id.spinner_category);
+        List<Category> categories = taskRoomDatabase.categoryDao().getAllCategories();
+        List<String> categoryNames = new ArrayList<>();
+        for (Category cat:categories) {
+            categoryNames.add(cat.getName());
+        }
+        ArrayAdapter<String> categoryNameAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_dropdown_item,
+                categoryNames
+                );
+        spinner_category.setAdapter(categoryNameAdapter);
 
         // Requesting Mic Permissions
         if(isMicrophonePresent()){

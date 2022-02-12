@@ -26,4 +26,5 @@
     <string name="update_category_name">Category name</string>
     <string name="save_category">Save</string>
     <string name="cancel_save_category">Cancel</string>
+    <string name="update_category">Update Category</string>
 </resources>

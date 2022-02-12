@@ -138,11 +138,18 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                 public void onClick(View view) {
                     String name = nameET.getText().toString().trim();
                     if (name.isEmpty()) {
-                        nameET.setError("name field is empty");
+                        nameET.setError("category is empty");
                         nameET.requestFocus();
                         return;
                     }
-
+                    Category existingCategory = taskRoomDatabase.categoryDao().getCategoryMatchingName(name);
+                    if (existingCategory !=  null
+                            && existingCategory.getName().equals(name)
+                            && existingCategory.getId() != category.getId()) {
+                        nameET.setError("category already exists");
+                        nameET.requestFocus();
+                        return;
+                    }
                     taskRoomDatabase.categoryDao().updateCategory(category.getId(),name);
                     loadCategories();
                     notifyItemChanged(getAdapterPosition());

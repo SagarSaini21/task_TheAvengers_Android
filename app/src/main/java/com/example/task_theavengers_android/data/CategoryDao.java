@@ -29,6 +29,6 @@ public interface CategoryDao {
     @Query("SELECT * FROM category ORDER BY id")
     List<Category> getAllCategories();
 
-    @Query("SELECT * FROM category where name like '%' || :name || '%' ORDER BY id")
-    List<Category> getAllCategoriesMatchingName(String name);
+    @Query("SELECT * FROM category where name = :name  ORDER BY id")
+    Category getCategoryMatchingName(String name);
 }

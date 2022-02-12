@@ -3,9 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_margin="20dp"
+    android:padding="20dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg"
     tools:context=".CreateTaskActivity">
 
     <LinearLayout
@@ -17,16 +18,18 @@
         android:background="@drawable/back_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" >
-        <ImageView
-            android:id="@+id/img_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
-            android:layout_gravity="center"
-            android:background="?selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:focusable="true"
-            app:srcCompat="@drawable/ic_back" />
+
+      <ImageView
+        android:id="@+id/img_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="18dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:focusable="true"
+        app:srcCompat="@drawable/ic_back"
+        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
     </LinearLayout>
 
     <TextView
@@ -72,6 +75,7 @@
         android:padding="10dp"
         android:textSize="14dp"
         android:fontFamily="@font/poppins"
+        android:paddingStart="20dp"
         android:hint="@string/enter_title"
         android:background="@android:color/transparent"/>
     </LinearLayout>
@@ -86,28 +90,30 @@
         android:background="@drawable/edittext_bg"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ll_edtTitle">
-        <Spinner
-            android:id="@+id/spinner_category"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:padding="10dp"
-            android:minHeight="48dp"
-            android:fontFamily="@font/poppins"/>
+
+      <Spinner
+        android:id="@+id/spinner_category"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:fontFamily="@font/poppins"
+        android:minHeight="48dp"
+        android:padding="10dp"
+        tools:ignore="SpeakableTextPresentCheck" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_add_new"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/primary_button"
-        android:textColor="@color/white"
-        android:elevation="20sp"
-        android:text="@string/add_new"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ll_edtCategory"
-        app:layout_constraintTop_toBottomOf="@+id/ll_edtTitle" />
+  <Button
+    android:id="@+id/btn_add_new"
+    android:layout_width="wrap_content"
+    android:layout_height="40dp"
+    android:layout_marginTop="15dp"
+    android:background="@drawable/primary_button"
+    android:elevation="20sp"
+    android:text="@string/add_new"
+    android:textColor="@color/white"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toEndOf="@+id/ll_edtCategory"
+    app:layout_constraintTop_toBottomOf="@+id/ll_edtTitle"
+    tools:ignore="TouchTargetSizeCheck" />
 
     <LinearLayout
         android:id="@+id/ll_descrp"

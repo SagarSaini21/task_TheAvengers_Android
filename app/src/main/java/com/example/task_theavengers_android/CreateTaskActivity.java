@@ -6,26 +6,36 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
+import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CreateTaskActivity extends AppCompatActivity {
     EditText title,categorySelected,desc;
-    Button addTask,addCat,addImages,back,next;
+    Button addTask,addCat,addImages,back,next,recordButton,playButton;
     private static int REQUEST_MICROPHONE=200;
+    MediaRecorder mediaRecorder;
+    MediaPlayer mediaPlayer;
+    private boolean isRecording=false;
+
     // Variables for images
     ImageSwitcher img;
     private ArrayList<Uri> imageURI;
@@ -42,10 +52,14 @@ public class CreateTaskActivity extends AppCompatActivity {
         desc=findViewById(R.id.edt_description);
         imageURI = new ArrayList<>();
         img = findViewById(R.id.imgdemo);
+        isRecording=false;
+
 
         // Requesting Mic Permissions
         if(isMicrophonePresent()){
             getMicPerm();
+        }else{
+            Toast.makeText(this, "No Mic", Toast.LENGTH_SHORT).show();
         }
 
         //Buttons
@@ -54,6 +68,8 @@ public class CreateTaskActivity extends AppCompatActivity {
         addImages=findViewById(R.id.btn_add_images);
         back= findViewById(R.id.btnback);
         next= findViewById(R.id.btnnext);
+        recordButton=findViewById(R.id.btnRecord);
+        playButton=findViewById(R.id.btnplay);
         addImages.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,9 +116,57 @@ public class CreateTaskActivity extends AppCompatActivity {
 
 //-------------------------- xxxxxxxxxxxxxxxxx ----------------------
 
+    recordButton.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+           if(isRecording)
+           {
+              recordButton.setText("Record");
+              isRecording=false;
+              mediaRecorder.stop();
+              mediaRecorder.release();
+              mediaRecorder = null;
+               Toast.makeText(CreateTaskActivity.this, "Recording Stopped", Toast.LENGTH_SHORT).show();
+           }else{
+               try
+               {
+                   mediaRecorder = new MediaRecorder();
+                   mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+                   mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+                   mediaRecorder.setOutputFile(getFilePath());
+                   mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+                   mediaRecorder.prepare();
+                   mediaRecorder.start();
+                   recordButton.setText("Stop");
+                   isRecording = true;
+                   Toast.makeText(CreateTaskActivity.this, "Recording Started...", Toast.LENGTH_SHORT).show();
+               }catch(Exception e){
+                   e.printStackTrace();
+                   Toast.makeText(CreateTaskActivity.this, "error", Toast.LENGTH_SHORT).show();
 
+               }
 
+           }
 
+        }
+    });
+
+    playButton.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            try {
+                mediaPlayer = new MediaPlayer();
+                mediaPlayer.setDataSource(getFilePath());
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+
+            }catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+
+        }
+    });
     }
 
 //-------------------Functions for Picking Images---------------------------
@@ -162,7 +226,13 @@ public class CreateTaskActivity extends AppCompatActivity {
 
         }
     }
-
+    private String getFilePath()
+    {
+        ContextWrapper contextWrapper = new ContextWrapper(getApplicationContext());
+        File musicDirectory = contextWrapper.getExternalFilesDir(Environment.DIRECTORY_MUSIC);
+        File file = new File(musicDirectory,"testname"+".mp3");
+        return file.getPath();
+    }
 
 
 }

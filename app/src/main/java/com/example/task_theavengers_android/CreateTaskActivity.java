@@ -74,6 +74,15 @@ public class CreateTaskActivity extends AppCompatActivity {
         initDatePicker();
         dateButton = findViewById(R.id.datePickerButton);
         dateButton.setText(getTodaysDate());
+        addCat = findViewById(R.id.btn_add_new);
+        // event listener to go to the category page
+        addCat.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            Intent i = new Intent(CreateTaskActivity.this, CategoryActivity.class);
+            startActivity(i);
+          }
+        });
 
         // Populate spinner with catagories from Room DB
         spinner_category = findViewById(R.id.spinner_category);

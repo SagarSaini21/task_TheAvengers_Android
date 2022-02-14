@@ -59,8 +59,9 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_back:
-                Intent i = new Intent(this,MainActivity.class);
-                startActivity(i);
+                // Intent i = new Intent(this,MainActivity.class);
+                // startActivity(i);
+                finish();
                 break;
             case R.id.btn_add_new:
                 addCategory();

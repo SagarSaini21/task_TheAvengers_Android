@@ -1,320 +1,338 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="30dp"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:background="@color/bg"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
 
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/main_wrapper"
+    android:padding="30dp"
+    android:background="@color/bg"
     tools:context=".CreateTaskActivity">
 
     <LinearLayout
-        android:id="@+id/ll_back"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+      android:id="@+id/ll_back"
+      android:layout_width="50dp"
+      android:layout_height="50dp"
 
-        android:layout_marginTop="10dp"
-        android:background="@drawable/back_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+      android:layout_marginTop="10dp"
+      android:background="@drawable/back_button"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/img_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="18dp"
-            android:background="?selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:focusable="true"
-            app:srcCompat="@drawable/ic_back"
-            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+      <ImageView
+        android:id="@+id/img_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="18dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:focusable="true"
+        app:srcCompat="@drawable/ic_back"
+        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
     </LinearLayout>
 
     <TextView
-        android:id="@+id/txt_title"
-        android:layout_width="290dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:fontFamily="@font/poppins_bold"
-        android:text="@string/create_a_new_task"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/ll_back"
-        app:layout_constraintTop_toTopOf="parent" />
+      android:id="@+id/txt_title"
+      android:layout_width="290dp"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="10dp"
+      android:layout_marginTop="10dp"
+      android:fontFamily="@font/poppins_bold"
+      android:text="@string/create_a_new_task"
+      android:textColor="@color/black"
+      android:textSize="18sp"
+      android:textStyle="bold"
+      app:layout_constraintStart_toEndOf="@+id/ll_back"
+      app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:layout_width="290dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:fontFamily="@font/poppins"
-        android:text="@string/all_your_tasks_in_one_place"
-        android:textSize="12sp"
-        app:layout_constraintStart_toEndOf="@+id/ll_back"
-        app:layout_constraintTop_toBottomOf="@+id/txt_title" />
+      android:layout_width="290dp"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="10dp"
+      android:fontFamily="@font/poppins"
+      android:text="@string/all_your_tasks_in_one_place"
+      android:textSize="12sp"
+      app:layout_constraintStart_toEndOf="@+id/ll_back"
+      app:layout_constraintTop_toBottomOf="@+id/txt_title" />
 
     <LinearLayout
-        android:id="@+id/ll_edtTitle"
-        android:layout_width="351dp"
-        android:layout_height="50dp"
+      android:id="@+id/ll_edtTitle"
+      android:layout_width="351dp"
+      android:layout_height="50dp"
+      android:layout_marginTop="15dp"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/ll_back">
 
-        android:layout_marginTop="10dp"
-        android:background="@drawable/edittext_bg"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_back">
-
-        <EditText
-            android:id="@+id/edt_title"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@android:color/transparent"
-            android:fontFamily="@font/poppins"
-            android:hint="@string/enter_title"
-            android:padding="10dp"
-            android:textSize="14dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_edtCategory"
+      <EditText
+        android:id="@+id/edt_title"
         android:layout_width="match_parent"
-        android:layout_height="53dp"
-
-        android:layout_marginTop="10dp"
+        android:layout_height="50dp"
         android:background="@drawable/edittext_bg"
-        android:orientation="horizontal"
-        android:weightSum="4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_edtTitle">
+        android:fontFamily="@font/poppins"
+        android:hint="@string/enter_title"
+        android:paddingLeft="20dp"
+        android:textSize="12dp" />
+    </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3">
+    <LinearLayout
+      android:id="@+id/ll_edtCategory"
+      android:layout_width="match_parent"
+      android:layout_height="53dp"
 
-            <Spinner
-                android:id="@+id/spinner_category"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:fontFamily="@font/poppins"
-                android:minHeight="48dp"
-                android:padding="10dp"
-                tools:ignore="SpeakableTextPresentCheck" />
+      android:layout_marginTop="10dp"
+      android:background="@drawable/edittext_bg"
+      android:orientation="horizontal"
+      android:weightSum="4"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/ll_edtTitle">
 
+      <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3">
 
-        </LinearLayout>
+        <Spinner
+          android:id="@+id/spinner_category"
+          android:layout_width="match_parent"
+          android:layout_height="50dp"
+          android:fontFamily="@font/poppins"
+          android:minHeight="48dp"
+          android:padding="10dp"
+          tools:ignore="SpeakableTextPresentCheck" />
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
+      </LinearLayout>
 
-            <Button
-                android:id="@+id/btn_add_new"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="6dp"
-                android:background="@drawable/primary_button"
-                android:elevation="20dp"
-                android:text="@string/add_new"
-                android:textColor="@color/white"
-                app:layout_constraintStart_toEndOf="@+id/ll_edtCategory"
-                app:layout_constraintTop_toBottomOf="@+id/ll_edtTitle"
-                tools:ignore="TouchTargetSizeCheck" />
+      <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
 
-        </LinearLayout>
+        <Button
+          android:id="@+id/btn_add_new"
+          android:layout_width="match_parent"
+          android:layout_height="40dp"
+          android:layout_marginStart="6dp"
+          android:layout_marginTop="6dp"
+          android:background="@drawable/secondary_button"
+          android:elevation="0dp"
+          android:text="@string/add_new"
+          android:textColor="@color/primary"
+          android:layout_marginEnd="6dp"
+          android:textSize="10dp"
+          app:layout_constraintStart_toEndOf="@+id/ll_edtCategory"
+          app:layout_constraintTop_toBottomOf="@+id/ll_edtTitle"
+          tools:ignore="TouchTargetSizeCheck" />
+
+      </LinearLayout>
 
 
     </LinearLayout>
 
 
     <LinearLayout
-        android:id="@+id/ll_descrp"
+      android:id="@+id/ll_descrp"
+      android:layout_width="match_parent"
+      android:layout_height="150dp"
+
+      android:layout_marginTop="10dp"
+      android:background="@drawable/edittext_bg"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/ll_edtCategory">
+
+      <EditText
+        android:id="@+id/edt_description"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-
-        android:layout_marginTop="10dp"
-        android:background="@drawable/edittext_bg"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_edtCategory">
-
-        <EditText
-            android:id="@+id/edt_description"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:background="@android:color/transparent"
-            android:fontFamily="@font/poppins"
-            android:gravity="top"
-            android:hint="@string/task_description"
-            android:padding="10dp"
-            android:textSize="14sp" />
+        android:background="@android:color/transparent"
+        android:fontFamily="@font/poppins"
+        android:gravity="top"
+        android:hint="@string/task_description"
+        android:paddingTop="15dp"
+        android:paddingLeft="15dp"
+        android:textSize="12sp" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/ll_date"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
+      android:id="@+id/ll_date"
+      android:layout_width="match_parent"
+      android:layout_height="55dp"
+      android:layout_marginTop="10dp"
+      android:background="@drawable/edittext_bg"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/ll_descrp">
 
-        android:layout_marginTop="10dp"
-        android:background="@drawable/edittext_bg"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_descrp">
-
-        <TextView
-            android:id="@+id/txt_due_date"
-            android:layout_width="150dp"
-            android:layout_height="50dp"
-            android:background="@android:color/transparent"
-            android:fontFamily="@font/poppins"
-            android:gravity="left|center"
-            android:hint="@string/select_due_date"
-            android:padding="10dp"
-            android:textSize="14sp" />
-        <Button
-            android:id="@+id/datePickerButton"
-            android:layout_width="180dp"
-            android:layout_height="wrap_content"
-            android:text="JAN 01 2020"
-            android:textSize="18dp"
-            android:textColor="@color/black"
-            style="?android:spinnerStyle"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
-            android:onClick="openDatePicker"/>
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_audio"
-        android:layout_width="match_parent"
+      <TextView
+        android:id="@+id/txt_due_date"
+        android:layout_width="150dp"
         android:layout_height="55dp"
+        android:background="@android:color/transparent"
+        android:fontFamily="@font/poppins"
+        android:gravity="left|center"
+        android:hint="@string/select_due_date"
+        android:paddingLeft="20dp"
+        android:textSize="12sp" />
+      <Button
+        android:id="@+id/datePickerButton"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:text="JAN 01 2020"
+        android:textSize="12dp"
+        android:textAlignment="textEnd"
+        android:textColor="@color/black"
+        style="?android:spinnerStyle"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        android:onClick="openDatePicker"/>
 
-        android:layout_marginTop="6dp"
-        android:background="@drawable/edittext_bg"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_date">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <Button
-                android:id="@+id/btnRecord"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="6dp"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/primary_button"
-                android:elevation="20dp"
-                android:text="Record"
-                android:textColor="@color/white"
-                app:layout_constraintStart_toEndOf="@+id/ll_edtCategory"
-                app:layout_constraintTop_toBottomOf="@+id/ll_edtTitle"
-                tools:ignore="TouchTargetSizeCheck" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <Button
-                android:id="@+id/btnplay"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="6dp"
-                android:background="@drawable/primary_button"
-                android:elevation="20dp"
-                android:text="Play"
-                android:textColor="@color/white"
-                app:layout_constraintStart_toEndOf="@+id/ll_edtCategory"
-                app:layout_constraintTop_toBottomOf="@+id/ll_edtTitle"
-                tools:ignore="TouchTargetSizeCheck" />
-        </LinearLayout>
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_create_task"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        android:background="@drawable/primary_button"
-        android:elevation="20dp"
-        android:text="@string/create_task"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    <LinearLayout
+      android:id="@+id/ll_audio"
+      android:layout_width="match_parent"
+      android:layout_height="50dp"
+      android:layout_marginTop="10dp"
+      android:orientation="horizontal"
+      android:weightSum="2"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/ll_date">
 
-    <ImageSwitcher
+      <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <Button
+          android:id="@+id/btnRecord"
+          android:layout_width="match_parent"
+          android:layout_height="50dp"
+          android:background="@drawable/secondary_button"
+          android:text="Record"
+          android:textColor="@color/primary"
+          android:layout_marginEnd="5dp"
+          app:layout_constraintStart_toEndOf="@+id/ll_edtCategory"
+          app:layout_constraintTop_toBottomOf="@+id/ll_edtTitle"
+          tools:ignore="TouchTargetSizeCheck" />
+      </LinearLayout>
+
+      <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <Button
+          android:id="@+id/btnplay"
+          android:layout_width="match_parent"
+          android:layout_height="50dp"
+          android:background="@drawable/secondary_button"
+          android:text="Play Audio"
+          android:textColor="@color/primary"
+          app:layout_constraintStart_toEndOf="@+id/ll_edtCategory"
+          app:layout_constraintTop_toBottomOf="@+id/ll_edtTitle"
+          tools:ignore="TouchTargetSizeCheck" />
+      </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+      android:id="@+id/imageWrapper"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      app:layout_constraintTop_toBottomOf="@id/ll_audio"
+      android:layout_marginTop="10dp"
+      android:orientation="vertical"
+      app:layout_constraintLeft_toLeftOf="@id/main_wrapper"
+      app:layout_constraintRight_toRightOf="@id/main_wrapper">
+
+      <ImageSwitcher
         android:id="@+id/imgdemo"
-        android:layout_width="106dp"
-        android:layout_height="97dp"
-        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
         android:textAlignment="center"
+        android:background="@drawable/white_round_border"
         app:layout_constraintEnd_toStartOf="@+id/btnnext"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btnback"
         app:layout_constraintTop_toBottomOf="@+id/ll_audio">
 
-    </ImageSwitcher>
+      </ImageSwitcher>
+
+      <LinearLayout
+        android:id="@+id/images_buttons_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="fill"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <Button
+          android:id="@+id/btnback"
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          android:background="@drawable/secondary_button"
+          android:text="&lt;"
+          android:textColor="@color/primary"
+          android:textSize="16sp"
+          android:layout_marginBottom="2dp"
+          android:fontFamily="@font/poppins_bold"
+          app:layout_constraintHorizontal_bias="0.5"
+          tools:ignore="TouchTargetSizeCheck" />
+
+        <Button
+          android:id="@+id/btn_add_images"
+          android:layout_width="match_parent"
+          android:layout_height="50dp"
+          android:background="@drawable/secondary_button"
+          android:elevation="20dp"
+          android:text="@string/add_images"
+          android:layout_weight="1"
+          android:textColor="@color/primary"
+          android:layout_marginLeft="10dp"
+          android:layout_marginRight="10dp"
+          app:layout_constraintEnd_toStartOf="@+id/btnback"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@+id/ll_audio"
+          tools:ignore="TouchTargetSizeCheck" />
+
+        <Button
+          android:id="@+id/btnnext"
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          android:background="@drawable/secondary_button"
+          android:text="&gt;"
+          android:textColor="@color/primary"
+          android:textSize="16sp"
+          android:fontFamily="@font/poppins_bold"
+          app:layout_constraintHorizontal_bias="0.5"
+          tools:ignore="TouchTargetSizeCheck" />
+
+      </LinearLayout>
+
+    </LinearLayout>
 
     <Button
-        android:id="@+id/btn_add_images"
-        android:layout_width="150dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="2dp"
-        android:layout_marginStart="1dp"
-        android:background="@drawable/primary_button"
-        android:elevation="20dp"
-        android:text="@string/add_images"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toStartOf="@+id/btnback"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_audio"
-        tools:ignore="TouchTargetSizeCheck" />
+      android:id="@+id/btn_create_task"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="0dp"
+      android:background="@drawable/primary_button"
+      android:elevation="20dp"
+      android:text="@string/create_task"
+      app:layout_constraintTop_toBottomOf="@id/imageWrapper"
+      android:layout_marginTop="10dp"
+      app:layout_constraintLeft_toLeftOf="@id/main_wrapper"
+      app:layout_constraintRight_toRightOf="@id/main_wrapper"
+      android:textColor="@color/white" />
 
-    <Button
-        android:id="@+id/btnnext"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/primary_button"
-        android:text=">"
-        android:textColor="#FFFFFF"
-        android:elevation="20dp"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/imgdemo"
-        app:layout_constraintTop_toBottomOf="@+id/ll_audio"
-        tools:ignore="TouchTargetSizeCheck" />
+  </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <Button
-        android:id="@+id/btnback"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/primary_button"
-        android:rotationY="180"
-        android:text=">"
-        android:elevation="20dp"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toStartOf="@+id/imgdemo"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btn_add_images"
-        app:layout_constraintTop_toBottomOf="@+id/ll_audio"
-        tools:ignore="TouchTargetSizeCheck" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

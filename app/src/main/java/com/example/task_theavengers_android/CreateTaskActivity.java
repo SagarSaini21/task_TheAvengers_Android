@@ -43,6 +43,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.UUID;
 
 public class CreateTaskActivity extends AppCompatActivity {
     EditText title,categorySelected,desc;
@@ -417,9 +418,10 @@ public class CreateTaskActivity extends AppCompatActivity {
     }
     private String getFilePath()
     {
+        String id = UUID.randomUUID().toString();
         ContextWrapper contextWrapper = new ContextWrapper(getApplicationContext());
         File musicDirectory = contextWrapper.getExternalFilesDir(Environment.DIRECTORY_MUSIC);
-        File file = new File(musicDirectory,"testname"+".mp3");
+        File file = new File(musicDirectory,"testname" + id +".mp3");
         return file.getPath();
     }
 

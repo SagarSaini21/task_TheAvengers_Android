@@ -29,6 +29,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
+import com.example.task_theavengers_android.databinding.ActivityCreateTaskBinding;
 import com.example.task_theavengers_android.entity.Category;
 import com.example.task_theavengers_android.util.TaskRoomDatabase;
 
@@ -46,6 +47,7 @@ public class CreateTaskActivity extends AppCompatActivity {
     MediaRecorder mediaRecorder;
     MediaPlayer mediaPlayer;
     private boolean isRecording=false;
+    private ActivityCreateTaskBinding binding;
 
     // Variables for images
     ImageSwitcher img;
@@ -55,13 +57,15 @@ public class CreateTaskActivity extends AppCompatActivity {
 
     private DatePickerDialog datePickerDialog;
     private Button dateButton;
+
     private Spinner spinner_category;
     private TaskRoomDatabase taskRoomDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_task);
+        binding = ActivityCreateTaskBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         // Get Singleton class of Task Room DB
         taskRoomDatabase = TaskRoomDatabase.getInstance(this);
 
@@ -209,10 +213,47 @@ public class CreateTaskActivity extends AppCompatActivity {
 
         }
     });
+
+
+//-----------------Add Task Methods------------------//
+
+    addTask.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+         add();
+
+        }
+    });
+    }
+
+    private void add() {
+        String titleTemp,cat,descTemp,dueDate;
+
+        titleTemp=binding.edtTitle.getText().toString().trim();
+        cat=spinner_category.getSelectedItem().toString();
+        descTemp=binding.edtDescription.getText().toString().trim();
+        dueDate=binding.datePickerButton.getText().toString().trim();
+
+        if(titleTemp.isEmpty())
+        {
+            title.setError("Name Field Is Empty");
+            title.requestFocus();
+            return;
+        }
+        if(descTemp.isEmpty())
+        {
+            desc.setError("Description Field Is Empty");
+            desc.requestFocus();
+            return;
+        }
+
+
+        //TODO: Insert Items in Table
+
     }
 
 
-//--------------------------Date Picker Functions--------------------------------
+    //--------------------------Date Picker Functions--------------------------------
     private String getTodaysDate()
     {
         Calendar cal = Calendar.getInstance();

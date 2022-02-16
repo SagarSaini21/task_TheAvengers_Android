@@ -31,9 +31,13 @@ import android.widget.ViewSwitcher;
 
 import com.example.task_theavengers_android.databinding.ActivityCreateTaskBinding;
 import com.example.task_theavengers_android.entity.Category;
+import com.example.task_theavengers_android.entity.Image;
+import com.example.task_theavengers_android.entity.Task;
+import com.example.task_theavengers_android.entity.TaskWithImages;
 import com.example.task_theavengers_android.util.TaskRoomDatabase;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -246,7 +250,27 @@ public class CreateTaskActivity extends AppCompatActivity {
             desc.requestFocus();
             return;
         }
-
+        Date finalDueDate = null;
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("MMM dd yyyy");
+            finalDueDate = format.parse(dueDate);
+        } catch (Exception ex) {}
+        //vergel
+        String audioPath = getFilePath();
+        Task task = new Task(titleTemp,descTemp,
+                new Date(), finalDueDate, cat, false , audioPath);
+        long taskId = taskRoomDatabase.taskDao().insertTask(task);
+        List<Image> images = new ArrayList<>();
+        for (Uri img:imageURI) {
+            Image image = new Image();
+            image.setImage_task_id(taskId);
+            image.setPath(img.getPath());
+            images.add(image);
+        }
+        if (images.size() > 0) {
+            taskRoomDatabase.taskDao().insertImages(images);
+        }
+        //List<TaskWithImages> temp = taskRoomDatabase.taskDao().getAllMatchingTasksWithImagesOrderByTitle("vergel");
 
         //TODO: Insert Items in Table
 

@@ -103,7 +103,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             buider.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    taskRoomDatabase.categoryDao().deleteCategory(categoryList.get(getAdapterPosition()).getId());
+                    taskRoomDatabase.categoryDao().deleteCategory( categoryList.get(getAdapterPosition()).getId());
                     categoryList.remove(getAdapterPosition());
                     notifyItemRemoved(getAdapterPosition());
                 }

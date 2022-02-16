@@ -21,10 +21,10 @@ public interface CategoryDao {
     void deleteAllCategories();
 
     @Query("DELETE FROM category where id = :id")
-    void deleteCategory(int id);
+    void deleteCategory(long id);
 
     @Query("UPDATE category SET name = :name WHERE id = :id")
-    int updateCategory(int id, String name);
+    int updateCategory(long id, String name);
 
     @Query("SELECT * FROM category ORDER BY id")
     List<Category> getAllCategories();

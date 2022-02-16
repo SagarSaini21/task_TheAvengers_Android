@@ -9,7 +9,9 @@ import androidx.room.TypeConverters;
 import com.example.task_theavengers_android.data.CategoryDao;
 import com.example.task_theavengers_android.data.TaskDao;
 import com.example.task_theavengers_android.entity.Category;
+import com.example.task_theavengers_android.entity.Image;
 import com.example.task_theavengers_android.entity.Task;
+import com.example.task_theavengers_android.entity.TaskWithImages;
 
 
 /**
@@ -17,7 +19,7 @@ import com.example.task_theavengers_android.entity.Task;
  * Date: Feb. 11, 2022
  * Description: Singleton class for Task Database using Room DB.
  */
-@Database(entities = {Category.class, Task.class}, version = 1, exportSchema = false)
+@Database(entities = {Category.class, Task.class, Image.class}, version = 7, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class TaskRoomDatabase extends RoomDatabase {
 
@@ -29,7 +31,8 @@ public abstract class TaskRoomDatabase extends RoomDatabase {
     public static TaskRoomDatabase getInstance(Context context) {
         if (INSTANCE == null)
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(), TaskRoomDatabase.class, DB_NAME)
-                    .allowMainThreadQueries()
+                .fallbackToDestructiveMigration()
+                .allowMainThreadQueries()
                     .build();
         return INSTANCE;
     }

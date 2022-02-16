@@ -32,8 +32,8 @@ public class CategoryColor {
      */
     public static int getColor(Context context, Category category) {
         int result = 0;
-        int categoryId = category.getId();
-        result = ContextCompat.getColor(context, colors[categoryId % 10]);
+        long categoryId = category.getId();
+        result = ContextCompat.getColor(context, colors[(int) (categoryId % 10)]);
         return result;
     }
 }

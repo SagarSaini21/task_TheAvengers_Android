@@ -32,9 +32,9 @@ public interface SubTaskDAO {
     @Query("UPDATE SubTask SET subTaskTitle = :subTaskTitle")
     void update(String subTaskTitle);
 
-//    @Delete
-//    void delete(SubTask subTask);
-//
+    @Delete
+    void delete(SubTask subTask);
+
     @Query("SELECT * FROM SubTask  WHERE id = :id ORDER BY subtaskId DESC")
     public List<SubTask> loadTaskWithSubTask(long id);
 //

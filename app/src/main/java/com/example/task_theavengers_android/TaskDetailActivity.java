@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PorterDuff;
@@ -65,6 +66,7 @@ public class TaskDetailActivity extends AppCompatActivity {
     CategoryDao categoryDao;
     LinearLayout progressWrapper;
     ImageButton playButton;
+    AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,27 +156,7 @@ public class TaskDetailActivity extends AppCompatActivity {
         binding.imgDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new MaterialAlertDialogBuilder(TaskDetailActivity.this)
-                        .setTitle("DELETE TASK")
-                        .setMessage("The Task will be deleted.")
-                        .setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                selectedTask = tasks;
-                                database.taskDao().deleteTask(selectedTask.getId());
-//                                taskWithSubtaskList.remove(selectedTask);
-                                Intent intent = new Intent(getApplicationContext(),HomePage.class);
-                                startActivity(intent);
-                                finish();
-                            }
-                        })
-                        .setNeutralButton("CANCEL", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-
-                            }
-                        })
-                        .show();
+                alertForDeleteTask();
 
             }
         });
@@ -290,9 +272,9 @@ public class TaskDetailActivity extends AppCompatActivity {
                     .make(binding.scrollview, "subtask completed", Snackbar.LENGTH_LONG);
             snackbar.show();
             selectedSubTask = subTask;
-//            database.subTaskDAO().delete(selectedSubTask);
-//            subTaskList.remove(selectedSubTask);
-//            updateRecycler(taskWithSubtaskList);
+            database.subTaskDAO().delete(selectedSubTask);
+            subTaskList.remove(selectedSubTask);
+            updateRecycler();
 
         }
 
@@ -300,28 +282,36 @@ public class TaskDetailActivity extends AppCompatActivity {
         @Override
         public void onClickDelete(SubTask subTask, ImageView imageView) {
 
-            new MaterialAlertDialogBuilder(TaskDetailActivity.this)
-                    .setTitle("DELETE SUBTASK")
-                    .setMessage("The subtask will be deleted.")
-                    .setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            selectedSubTask = subTask;
-//                            database.subTaskDAO().delete(selectedSubTask);
-//                            subTaskList.remove(selectedSubTask);
-//                            updateRecycler(taskWithSubtaskList);
-
-                            Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .setNeutralButton("CANCEL", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-
-                        }
-                    })
-                    .show();
+         //  alertForDeleteSubTask(subTask);
 
         }
     };
+
+
+    private void alertForDeleteTask(){
+        builder = new AlertDialog.Builder(TaskDetailActivity.this);
+        builder.setMessage("Do you want ro delete the task?")
+                .setCancelable(false)
+                .setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        selectedTask = tasks;
+                        database.taskDao().deleteTask(selectedTask.getId());
+                        Intent intent = new Intent(getApplicationContext(),HomePage.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                })
+                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //  Action for 'NO' Button
+                        dialog.cancel();
+
+                    }
+                });
+        //Creating dialog box
+        AlertDialog alert = builder.create();
+        //Setting the title manually
+        alert.setTitle("DELETE TASK");
+        alert.show();
+    }
 }

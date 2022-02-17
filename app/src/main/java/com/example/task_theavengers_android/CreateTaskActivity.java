@@ -25,6 +25,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -49,6 +50,7 @@ import java.util.UUID;
 public class CreateTaskActivity extends AppCompatActivity {
     EditText title,categorySelected,desc;
     Button addTask,addCat,addImages,back,next,recordButton,playButton;
+    ImageView backButton;
     private static int REQUEST_MICROPHONE=200;
     MediaRecorder mediaRecorder;
     MediaPlayer mediaPlayer;
@@ -76,6 +78,13 @@ public class CreateTaskActivity extends AppCompatActivity {
         taskRoomDatabase = TaskRoomDatabase.getInstance(this);
 
         title=findViewById(R.id.edt_title);
+        backButton = findViewById(R.id.img_back);
+        backButton.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            finish();
+          }
+        });
         categorySelected=findViewById(R.id.edt_category);
         desc=findViewById(R.id.edt_description);
         imageURI = new ArrayList<>();
@@ -195,7 +204,6 @@ public class CreateTaskActivity extends AppCompatActivity {
                }catch(Exception e){
                    e.printStackTrace();
                    Toast.makeText(CreateTaskActivity.this, "error", Toast.LENGTH_SHORT).show();
-
                }
 
            }
@@ -208,6 +216,7 @@ public class CreateTaskActivity extends AppCompatActivity {
         public void onClick(View v) {
             try {
                 mediaPlayer = new MediaPlayer();
+                Log.e("AUDIO PATH => ", ""+getFilePath());
                 mediaPlayer.setDataSource(getFilePath());
                 mediaPlayer.prepare();
                 mediaPlayer.start();
@@ -273,8 +282,9 @@ public class CreateTaskActivity extends AppCompatActivity {
         if (images.size() > 0) {
             taskRoomDatabase.taskDao().insertImages(images);
         }
-        List<TaskWithImages> temp = taskRoomDatabase.taskDao().getAllMatchingTasksWithImagesOrderByCreateDate("");
-        Log.e("TASK WITH IMAGES => ", ""+temp.size());
+//        List<TaskWithImages> temp = taskRoomDatabase.taskDao().getAllMatchingTasksWithImagesOrderByCreateDate("");
+//        Log.e("TASK WITH IMAGES => ", ""+temp.size());
+        finish();
 
 
         //TODO: Insert Items in Table
@@ -383,6 +393,10 @@ public class CreateTaskActivity extends AppCompatActivity {
                         Uri imageUri = data.getClipData().getItemAt(i).getUri();
                         imageURI.add(imageUri);
                     }
+                    if(count > 0){
+                      // show the selected images and buttons
+                      updateImageSwitcherView();
+                    }
                   img.setImageURI(imageURI.get(0));
                     position=0;
                 }else if(data.getData() != null) {
@@ -394,6 +408,21 @@ public class CreateTaskActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    private void updateImageSwitcherView(){
+      final float scale = getApplicationContext().getResources().getDisplayMetrics().density;
+      int width = (int) (55 * scale + 0.5f);
+      int view_height = (int) (130 * scale + 0.5f);
+      LinearLayout.LayoutParams img_view_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, view_height);
+      img_view_params.setMargins(0, (int) (10 * scale + 0.5f), 0, (int) (10 * scale + 0.5f));
+      img.setLayoutParams(img_view_params);
+      LinearLayout.LayoutParams prev_btn_params = new LinearLayout.LayoutParams(width, width);
+      prev_btn_params.setMargins(0,0, (int) (10 * scale + 0.5f), 0);
+      LinearLayout.LayoutParams next_btn_params = new LinearLayout.LayoutParams(width, width);
+      next_btn_params.setMargins((int) (10 * scale + 0.5f),0, 0, 0);
+      next.setLayoutParams(next_btn_params);
+      back.setLayoutParams(prev_btn_params);
     }
 //-----------------XXXXXXXX---------------------------------------
 

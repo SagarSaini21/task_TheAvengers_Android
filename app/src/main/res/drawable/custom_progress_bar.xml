@@ -4,7 +4,7 @@
   <item android:id="@android:id/background" android:height="8dp">
     <shape>
 
-      <solid android:color="@color/progress_bg">
+      <solid android:color="#DFDFDF">
       </solid>
 
       <corners
@@ -19,7 +19,7 @@
     <clip>
       <shape>
         <solid
-          android:color="@color/primary"
+          android:color="#00000033"
           >
         </solid>
         <corners

@@ -43,7 +43,6 @@
           android:layout_width="10dp"
           android:layout_height="10dp"
           android:background="@drawable/white_round_border"
-          android:backgroundTint="@color/black"
           android:enabled="false" />
 
       </LinearLayout>
@@ -56,7 +55,7 @@
       android:layout_height="wrap_content"
       android:textColor="@color/text_grey"
       android:fontFamily="@font/poppins"
-      android:lines="2"
+      android:maxLines="3"
       android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Faucibus eu elit tellus cras nisi, volutpat pharetra. Enim, viverra quisque at nulla."
       android:textSize="12dp"/>
 

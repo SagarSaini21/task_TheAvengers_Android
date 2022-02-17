@@ -65,10 +65,12 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapte
         if(lastCategoryClickedIndex == position){
           holder.categoryBtn.setBackground(context.getDrawable(R.drawable.primary_button));
           holder.categoryBtn.setTextColor(Color.WHITE);
+          holder.categoryBtn.setElevation(30);
         }
         else{
           holder.categoryBtn.setBackground(context.getDrawable(R.drawable.white_round_border));
           holder.categoryBtn.setTextColor(Color.GRAY);
+          holder.categoryBtn.setElevation(0);
         }
         holder.categoryBtn.setOnClickListener(new View.OnClickListener() {
           @Override

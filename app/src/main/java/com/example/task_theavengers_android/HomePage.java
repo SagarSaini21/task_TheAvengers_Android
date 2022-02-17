@@ -2,6 +2,7 @@ package com.example.task_theavengers_android;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,7 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.example.task_theavengers_android.adapter.HomeCategoryAdapter;
@@ -21,7 +24,7 @@ import com.example.task_theavengers_android.util.TaskRoomDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomePage extends AppCompatActivity {
+public class HomePage extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener{
 
   private TaskRoomDatabase taskRoomDatabase;
   private List<Category> categoryList;
@@ -32,6 +35,7 @@ public class HomePage extends AppCompatActivity {
   private RecyclerView recyclerView, taskRecyclerView;
   private ImageView toCategory, toAddNewTask;
   SearchView search_text;
+  ImageButton sort;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +49,7 @@ public class HomePage extends AppCompatActivity {
       search_text = findViewById(R.id.searchbar_notes);
         taskRecyclerView = findViewById(R.id.recyclerTasksListView);
         toCategory = findViewById(R.id.toCategory);
+      sort = findViewById(R.id.sort);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         taskRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         prepareCategoryList();
@@ -65,6 +70,17 @@ public class HomePage extends AppCompatActivity {
           return true;
         }
       });
+
+      tasksList = taskRoomDatabase.taskDao().getAllTasksWithImages();
+      for (TaskWithImages task : tasksList){
+        sort.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+            showPopUp(view);
+          }
+        });
+
+      }
     }
 
   private void filter(String newText) {
@@ -151,4 +167,30 @@ public class HomePage extends AppCompatActivity {
 
       super.onActivityResult(requestCode, resultCode, data);
     }
+
+  private void showPopUp(View cardView) {
+    PopupMenu popupMenu = new PopupMenu(this,cardView);
+    popupMenu.setOnMenuItemClickListener(this);
+    popupMenu.inflate(R.menu.popup_menu);
+    popupMenu.show();
+  }
+
+  @Override
+  public boolean onMenuItemClick(MenuItem item) {
+    switch (item.getItemId()){
+      case R.id.title:
+
+        return true;
+
+      case R.id.date:
+
+        return true;
+      case R.id.completed:
+
+
+      default:
+        return false;
+    }
+
+  }
 }

@@ -112,17 +112,7 @@ public class CreateTaskActivity extends AppCompatActivity {
         });
 
         // Populate spinner with catagories from Room DB
-        spinner_category = findViewById(R.id.spinner_category);
-        List<Category> categories = taskRoomDatabase.categoryDao().getAllCategories();
-        List<String> categoryNames = new ArrayList<>();
-        for (Category cat:categories) {
-            categoryNames.add(cat.getName());
-        }
-        ArrayAdapter<String> categoryNameAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_dropdown_item,
-                categoryNames
-                );
-        spinner_category.setAdapter(categoryNameAdapter);
+        updateSpinner();
 
         // Requesting Mic Permissions
         if(isMicrophonePresent()){
@@ -550,6 +540,23 @@ public class CreateTaskActivity extends AppCompatActivity {
       return file.getPath();
     }
 
-
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateSpinner();
+    }
+    private void updateSpinner() {
+        // Populate spinner with catagories from Room DB
+        spinner_category = findViewById(R.id.spinner_category);
+        List<Category> categories = taskRoomDatabase.categoryDao().getAllCategories();
+        List<String> categoryNames = new ArrayList<>();
+        for (Category cat:categories) {
+            categoryNames.add(cat.getName());
+        }
+        ArrayAdapter<String> categoryNameAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_dropdown_item,
+                categoryNames
+        );
+        spinner_category.setAdapter(categoryNameAdapter);
+    }
 }

@@ -78,36 +78,35 @@
     tools:layout_editor_absoluteY="1dp">
 
     <LinearLayout
-      android:id="@+id/searchWithIconWrapper"
-      android:layout_width="match_parent"
-      android:layout_height="55dp"
-      android:orientation="horizontal"
-      android:gravity="center_vertical"
-      android:paddingLeft="20dp"
-      android:layout_weight="1"
-      android:layout_marginRight="15dp"
-      android:background="@drawable/white_round_border"
-      tools:layout_editor_absoluteX="1dp"
-      tools:layout_editor_absoluteY="1dp">
-
-      <ImageView
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:id="@+id/searchWithIconWrapper"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:layout_weight="1"
         android:layout_marginRight="15dp"
-        android:src="@drawable/search_icon"/>
-
-      <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:background="@drawable/white_round_border"
-        android:hint="Search tasks ..."
-        android:fontFamily="@font/poppins"
-        android:textSize="15dp"
-        android:layout_weight="1"/>
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp">
+
+
+      <androidx.appcompat.widget.SearchView
+          android:layout_width="match_parent"
+          android:layout_height="55dp"
+          android:id="@+id/searchbar_notes"
+          android:background="@drawable/white_round_border"
+          app:queryHint="Search tasks ..."
+          app:iconifiedByDefault="false"
+          android:textSize="15dp"
+          android:layout_weight="1"
+          android:layout_alignParentTop="true"/>
+
 
     </LinearLayout>
 
     <ImageButton
+        android:id="@+id/sort"
       android:layout_width="55dp"
       android:layout_height="55dp"
       android:background="@drawable/primary_button"

@@ -2,13 +2,17 @@ package com.example.task_theavengers_android;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.example.task_theavengers_android.adapter.HomeCategoryAdapter;
@@ -17,9 +21,10 @@ import com.example.task_theavengers_android.entity.Category;
 import com.example.task_theavengers_android.entity.TaskWithImages;
 import com.example.task_theavengers_android.util.TaskRoomDatabase;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class HomePage extends AppCompatActivity {
+public class HomePage extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener{
 
   private TaskRoomDatabase taskRoomDatabase;
   private List<Category> categoryList;
@@ -29,6 +34,8 @@ public class HomePage extends AppCompatActivity {
   private TaskAdaptor taskAdaptor;
   private RecyclerView recyclerView, taskRecyclerView;
   private ImageView toCategory, toAddNewTask;
+  SearchView search_text;
+  ImageButton sort;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +46,10 @@ public class HomePage extends AppCompatActivity {
         // connect the elements
         toAddNewTask = findViewById(R.id.toAddNewTask);
         recyclerView = findViewById(R.id.recyclerView);
+      search_text = findViewById(R.id.searchbar_notes);
         taskRecyclerView = findViewById(R.id.recyclerTasksListView);
         toCategory = findViewById(R.id.toCategory);
+      sort = findViewById(R.id.sort);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         taskRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         prepareCategoryList();
@@ -48,9 +57,45 @@ public class HomePage extends AppCompatActivity {
         // trigger methods
         goToCategories(); // category button trigger
         goToAddNewTask(); // to new task button trigger
+
+      search_text.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+          return false;
+        }
+
+        @Override
+        public boolean onQueryTextChange(String newText) {
+          filter(newText);
+          return true;
+        }
+      });
+
+      tasksList = taskRoomDatabase.taskDao().getAllTasksWithImages();
+      for (TaskWithImages task : tasksList){
+        sort.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+            showPopUp(view);
+          }
+        });
+
+      }
     }
 
-    // method prepare tasks
+  private void filter(String newText) {
+    List<TaskWithImages> filterList = new ArrayList<>();
+    for (TaskWithImages singleNote :
+            tasksList) {
+      if (singleNote.getTask().getName().toLowerCase().contains(newText.toLowerCase())
+              || singleNote.getTask().getDescription().toLowerCase().contains(newText.toLowerCase())){
+        filterList.add(singleNote);
+      }
+    }
+    taskAdaptor.filterList(filterList);
+  }
+
+  // method prepare tasks
     private void prepareTasks(){
       // get the tasks
       tasksList = taskRoomDatabase.taskDao().getAllTasksWithImages();
@@ -82,6 +127,9 @@ public class HomePage extends AppCompatActivity {
 
     public void getCategoryClick(Category category){
       Log.e("CATEGORY NAME => ", ""+category.getName());
+      tasksList = taskRoomDatabase.taskDao().getTaskWithImagesByCategoryId(category.getName());
+      taskAdaptor = new TaskAdaptor(this, tasksList);
+      taskRecyclerView.setAdapter(taskAdaptor);
       categoryAdapter.notifyDataSetChanged();
     }
 
@@ -122,4 +170,30 @@ public class HomePage extends AppCompatActivity {
 
       super.onActivityResult(requestCode, resultCode, data);
     }
+
+  private void showPopUp(View cardView) {
+    PopupMenu popupMenu = new PopupMenu(this,cardView);
+    popupMenu.setOnMenuItemClickListener(this);
+    popupMenu.inflate(R.menu.popup_menu);
+    popupMenu.show();
+  }
+
+  @Override
+  public boolean onMenuItemClick(MenuItem item) {
+    switch (item.getItemId()){
+      case R.id.title:
+
+        return true;
+
+      case R.id.date:
+
+        return true;
+      case R.id.completed:
+
+
+      default:
+        return false;
+    }
+
+  }
 }

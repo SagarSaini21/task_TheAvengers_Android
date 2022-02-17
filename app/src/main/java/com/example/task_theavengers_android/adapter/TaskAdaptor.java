@@ -71,6 +71,15 @@ public class TaskAdaptor extends RecyclerView.Adapter<TaskAdaptor.ViewHolder> {
         DateTime date = new DateTime();
         DateTime endInstant = new DateTime(task.task.getDueDate().getTime());
         holder.due.setText(Days.daysBetween(date.toLocalDate(), endInstant.toLocalDate()).getDays() + " days left");
+        GradientDrawable status_shape =  new GradientDrawable();
+        status_shape.setCornerRadius(20);
+        status_shape.setColor(context.getResources().getColor(R.color.progress_bg));
+        holder.completedStatus.setTextColor(Color.GRAY);
+        if(task.task.isCompleted()){
+          status_shape.setColor(context.getResources().getColor(R.color.Green));
+          holder.completedStatus.setTextColor(Color.WHITE);
+        }
+        holder.completedStatus.setBackground(status_shape);
         // get category to get the color
         Category category = getCategoryByName(task.task.getCategory());
         if(category != null){
@@ -93,7 +102,7 @@ public class TaskAdaptor extends RecyclerView.Adapter<TaskAdaptor.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView title, desc, date, due;
-        Button colorBtn;
+        Button colorBtn, completedStatus;
         ProgressBar progressBar;
 
         ViewHolder(View itemView) {
@@ -105,6 +114,7 @@ public class TaskAdaptor extends RecyclerView.Adapter<TaskAdaptor.ViewHolder> {
             due = itemView.findViewById(R.id.dueText);
             colorBtn = itemView.findViewById(R.id.categoryColor);
             progressBar = itemView.findViewById(R.id.subTasksProgressBar);
+            completedStatus = itemView.findViewById(R.id.taskCompletedStatus);
         }
 
       @Override

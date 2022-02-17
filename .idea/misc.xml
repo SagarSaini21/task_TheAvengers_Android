@@ -12,11 +12,11 @@
         <entry key="app/src/main/res/drawable/white_round_border.xml" value="0.157" />
         <entry key="app/src/main/res/drawable/white_top_corner.xml" value="0.157" />
         <entry key="app/src/main/res/layout/activity_create_task.xml" value="0.3422007255139057" />
-        <entry key="app/src/main/res/layout/activity_home_page.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_home_page.xml" value="0.5302226935312832" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.27274078369140625" />
         <entry key="app/src/main/res/layout/activity_task_detail.xml" value="0.2833333333333333" />
         <entry key="app/src/main/res/layout/category_item.xml" value="0.2671875" />
-        <entry key="app/src/main/res/layout/task_list_item.xml" value="0.3636749267578125" />
+        <entry key="app/src/main/res/layout/task_list_item.xml" value="0.45" />
       </map>
     </option>
   </component>

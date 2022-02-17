@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -12,7 +13,7 @@ import java.util.Date;
  * Description: Entity class to store image data into Room Database.
  */
 @Entity(tableName = "image")
-public class Image {
+public class Image implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private long id;

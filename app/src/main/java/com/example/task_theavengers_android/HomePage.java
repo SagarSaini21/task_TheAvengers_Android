@@ -9,11 +9,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.widget.Button;
 import android.widget.ImageView;
 
-import com.example.task_theavengers_android.adapter.CategoryAdapter;
 import com.example.task_theavengers_android.adapter.HomeCategoryAdapter;
 import com.example.task_theavengers_android.adapter.TaskAdaptor;
 import com.example.task_theavengers_android.entity.Category;
@@ -27,6 +24,7 @@ public class HomePage extends AppCompatActivity {
   private TaskRoomDatabase taskRoomDatabase;
   private List<Category> categoryList;
   private List<TaskWithImages> tasksList;
+
   private HomeCategoryAdapter categoryAdapter;
   private TaskAdaptor taskAdaptor;
   private RecyclerView recyclerView, taskRecyclerView;
@@ -59,6 +57,17 @@ public class HomePage extends AppCompatActivity {
       taskAdaptor = new TaskAdaptor(this, tasksList);
       taskRecyclerView.setAdapter(taskAdaptor);
     }
+
+ /* private final TaskClickListener taskClickListener = new TaskClickListener() {
+    @Override
+    public void onClick(TaskWithImages taskWithImages) {
+      Intent intent = new Intent(HomePage.this,TaskDetailActivity.class);
+      //pass the particular item
+      intent.putExtra("old_task", (Parcelable) taskWithImages.task);
+      startActivity(intent);
+    }
+
+  };*/
 
     // method prepare category list
     private void prepareCategoryList(){

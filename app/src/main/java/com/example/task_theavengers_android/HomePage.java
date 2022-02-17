@@ -126,11 +126,17 @@ public class HomePage extends AppCompatActivity implements PopupMenu.OnMenuItemC
     }
 
     public void getCategoryClick(Category category){
-      Log.e("CATEGORY NAME => ", ""+category.getName());
-      tasksList = taskRoomDatabase.taskDao().getTaskWithImagesByCategoryId(category.getName());
+      if (category.getName().equals("All")){
+        tasksList = taskRoomDatabase.taskDao().getAllTasksWithImages();
+      }else {
+        Log.e("CATEGORY NAME => ", ""+category.getName());
+        tasksList = taskRoomDatabase.taskDao().getTaskWithImagesByCategoryId(category.getName());
+      }
       taskAdaptor = new TaskAdaptor(this, tasksList);
       taskRecyclerView.setAdapter(taskAdaptor);
       categoryAdapter.notifyDataSetChanged();
+
+
     }
 
     // method to go to categories page

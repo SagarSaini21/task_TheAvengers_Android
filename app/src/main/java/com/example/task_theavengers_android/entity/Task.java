@@ -9,6 +9,7 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -17,7 +18,7 @@ import java.util.Date;
  * Description: Entity class to store task data into Room Database.
  */
 @Entity(tableName = "task")
-public class Task {
+public class Task implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private long id;
     /*
@@ -59,7 +60,7 @@ public class Task {
     private String audioPath;
 
 
-    public Task(@NonNull String name, @NonNull String description, @NonNull Date createDate, @NonNull Date dueDate, @NonNull String category, boolean completed , String audioPath) {
+    public Task(@NonNull String name, @NonNull String description, @NonNull Date createDate, @NonNull Date dueDate, @NonNull String category,@NonNull boolean completed , String audioPath) {
         this.name = name;
         this.description = description;
         this.createDate = createDate;

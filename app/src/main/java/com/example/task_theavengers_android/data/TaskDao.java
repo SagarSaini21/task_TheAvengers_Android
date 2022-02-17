@@ -71,4 +71,6 @@ public interface TaskDao {
     @Query("SELECT * FROM task WHERE name LIKE '%' || :search || '%' or description LIKE '%' || :search || '%' ORDER BY createDate")
     List<TaskWithImages> getAllMatchingTasksWithImagesOrderByCreateDate(String search);
 
+    @Query("SELECT * FROM task where category = :name")
+    List<TaskWithImages> getTaskWithImagesByCategoryId(String name);
 }

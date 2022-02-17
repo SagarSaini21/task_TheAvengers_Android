@@ -46,10 +46,10 @@ public class HomePage extends AppCompatActivity implements PopupMenu.OnMenuItemC
         // connect the elements
         toAddNewTask = findViewById(R.id.toAddNewTask);
         recyclerView = findViewById(R.id.recyclerView);
-      search_text = findViewById(R.id.searchbar_notes);
+        search_text = findViewById(R.id.searchbar_notes);
         taskRecyclerView = findViewById(R.id.recyclerTasksListView);
         toCategory = findViewById(R.id.toCategory);
-      sort = findViewById(R.id.sort);
+        sort = findViewById(R.id.sort);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         taskRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         prepareCategoryList();
@@ -83,17 +83,17 @@ public class HomePage extends AppCompatActivity implements PopupMenu.OnMenuItemC
       }
     }
 
-  private void filter(String newText) {
-    List<TaskWithImages> filterList = new ArrayList<>();
-    for (TaskWithImages singleNote :
-            tasksList) {
-      if (singleNote.getTask().getName().toLowerCase().contains(newText.toLowerCase())
-              || singleNote.getTask().getDescription().toLowerCase().contains(newText.toLowerCase())){
-        filterList.add(singleNote);
+    private void filter(String newText) {
+      List<TaskWithImages> filterList = new ArrayList<>();
+      for (TaskWithImages singleNote :
+              tasksList) {
+        if (singleNote.getTask().getName().toLowerCase().contains(newText.toLowerCase())
+                || singleNote.getTask().getDescription().toLowerCase().contains(newText.toLowerCase())){
+          filterList.add(singleNote);
+        }
       }
+      taskAdaptor.filterList(filterList);
     }
-    taskAdaptor.filterList(filterList);
-  }
 
   // method prepare tasks
     private void prepareTasks(){
@@ -127,7 +127,12 @@ public class HomePage extends AppCompatActivity implements PopupMenu.OnMenuItemC
 
     public void getCategoryClick(Category category){
       Log.e("CATEGORY NAME => ", ""+category.getName());
-      tasksList = taskRoomDatabase.taskDao().getTaskWithImagesByCategoryId(category.getName());
+      if(category.getId() == 0){
+        tasksList = taskRoomDatabase.taskDao().getAllTasksWithImages();
+      }
+      else{
+        tasksList = taskRoomDatabase.taskDao().getTaskWithImagesByCategoryId(category.getName());
+      }
       taskAdaptor = new TaskAdaptor(this, tasksList);
       taskRecyclerView.setAdapter(taskAdaptor);
       categoryAdapter.notifyDataSetChanged();
@@ -182,14 +187,25 @@ public class HomePage extends AppCompatActivity implements PopupMenu.OnMenuItemC
   public boolean onMenuItemClick(MenuItem item) {
     switch (item.getItemId()){
       case R.id.title:
-
+        tasksList = taskRoomDatabase.taskDao().getTaskWithImagesOrderByName();
+        taskAdaptor = new TaskAdaptor(this, tasksList);
+        taskRecyclerView.setAdapter(taskAdaptor);
+        categoryAdapter.notifyDataSetChanged();
         return true;
 
       case R.id.date:
-
+        tasksList = taskRoomDatabase.taskDao().getTaskWithImagesOrderByDate();
+        taskAdaptor = new TaskAdaptor(this, tasksList);
+        taskRecyclerView.setAdapter(taskAdaptor);
+        categoryAdapter.notifyDataSetChanged();
         return true;
-      case R.id.completed:
 
+      case R.id.completed:
+        tasksList = taskRoomDatabase.taskDao().getTaskWithImagesOrderCompleted(true);
+        taskAdaptor = new TaskAdaptor(this, tasksList);
+        taskRecyclerView.setAdapter(taskAdaptor);
+        categoryAdapter.notifyDataSetChanged();
+        return true;
 
       default:
         return false;

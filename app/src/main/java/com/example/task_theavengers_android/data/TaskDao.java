@@ -69,6 +69,18 @@ public interface TaskDao {
     @Query("SELECT * FROM task WHERE name LIKE '%' || :search || '%' or description LIKE '%' || :search || '%' ORDER BY name")
     List<TaskWithImages> getAllMatchingTasksWithImagesOrderByTitle(String search);
 
+    @Transaction
+    @Query("SELECT * FROM task ORDER BY name ASC")
+    List<TaskWithImages> getTaskWithImagesOrderByName();
+
+    @Transaction
+    @Query("SELECT * FROM task ORDER BY createDate ASC")
+    List<TaskWithImages> getTaskWithImagesOrderByDate();
+
+    @Transaction
+    @Query("SELECT * FROM task WHERE completed = :status")
+    List<TaskWithImages> getTaskWithImagesOrderCompleted(Boolean status);
+
 
     @Transaction
     @Query("SELECT * FROM task WHERE name LIKE '%' || :search || '%' or description LIKE '%' || :search || '%' ORDER BY createDate")

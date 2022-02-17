@@ -5,6 +5,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -18,6 +19,7 @@ import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -49,6 +51,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -291,31 +294,23 @@ public class CreateTaskActivity extends AppCompatActivity {
             Image image = new Image();
             image.setImage_task_id(taskId);
             Log.e("IMAGE PATH => ", ""+img.getPath());
-            String imagePath = getRandomImagePath(imageFormats.get(i));
+            String destinationFilename = getRandomImagePath(imageFormats.get(i));
             String sourceFilename= img.getPath();
-            Log.e("IMAGE PATH NAME => ", ""+imagePath);
-            BufferedInputStream bis = null;
-            BufferedOutputStream bos = null;
+            Log.e("IMAGE PATH NAME => ", ""+destinationFilename);
 
             try {
-              bis = new BufferedInputStream(new FileInputStream(sourceFilename));
-              bos = new BufferedOutputStream(new FileOutputStream(imagePath, false));
-              byte[] buf = new byte[1024];
-              bis.read(buf);
-              do {
-                bos.write(buf);
-              } while(bis.read(buf) != -1);
-            } catch (IOException e) {
-              e.printStackTrace();
-            } finally {
-              try {
-                if (bis != null) bis.close();
-                if (bos != null) bos.close();
-                image.setPath(imagePath);
-                images.add(image);
-              } catch (IOException e) {
-                    e.printStackTrace();
-              }
+              File source = new File(getImagePath(img));
+              FileInputStream inputStream= new FileInputStream(source);
+              FileChannel src = inputStream.getChannel();
+              FileChannel dst = new FileOutputStream(destinationFilename).getChannel();
+              dst.transferFrom(src, 0, src.size());
+              src.close();
+              dst.close();
+              image.setPath(destinationFilename);
+              images.add(image);
+            } catch (IOException ex) {
+              ex.printStackTrace();
+              Log.e("ERROR WHILE SAVING => ", ""+ex.toString());
             }
         }
         if (images.size() > 0) {
@@ -328,6 +323,23 @@ public class CreateTaskActivity extends AppCompatActivity {
 
         //TODO: Insert Items in Table
 
+    }
+
+    public String getImagePath(Uri uri){
+      Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+      cursor.moveToFirst();
+      String document_id = cursor.getString(0);
+      document_id = document_id.substring(document_id.lastIndexOf(":")+1);
+      cursor.close();
+
+      cursor = getContentResolver().query(
+        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+        null, MediaStore.Images.Media._ID + " = ? ", new String[]{document_id}, null);
+      cursor.moveToFirst();
+      @SuppressLint("Range") String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+      cursor.close();
+
+      return path;
     }
 
 
@@ -487,10 +499,11 @@ public class CreateTaskActivity extends AppCompatActivity {
     private void getMicPerm()
     {
         if (ContextCompat.checkSelfPermission(this,Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED &&
-          ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+          ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED &&
+          ContextCompat.checkSelfPermission(this,Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
         ) {
             ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
                     REQUEST_MICROPHONE);
         }
     }

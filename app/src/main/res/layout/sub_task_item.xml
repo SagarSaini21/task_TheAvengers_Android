@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_marginTop="10dp"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content">
+
+  <LinearLayout
+    android:id="@+id/subTaskWrapper"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    tools:layout_editor_absoluteX="1dp"
+    tools:layout_editor_absoluteY="1dp"
+    android:gravity="center"
+    tools:ignore="MissingConstraints">
+
+
+    <ImageView
+      android:id="@+id/itemColor"
+      android:layout_width="12dp"
+      android:layout_marginRight="15dp"
+      android:background="@drawable/circle_color"
+      android:layout_height="12dp"/>
+
+    <TextView
+      android:id="@+id/subTaskName"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:fontFamily="@font/poppins"
+      android:textSize="14dp"
+      android:textColor="@color/black"
+      android:text="TextView" />
+
+    <ImageView
+      android:id="@+id/itemStatus"
+      android:layout_width="30dp"
+      android:layout_height="30dp"
+      android:layout_marginRight="15dp"
+      android:src="@drawable/ic_check_box_not_done"/>
+
+  </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

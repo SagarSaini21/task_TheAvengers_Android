@@ -44,6 +44,9 @@ public interface TaskDao {
     @Query("SELECT * FROM task ORDER BY id")
     List<Task> getAllTasks();
 
+    @Query("SELECT * FROM image where id = :id")
+    List<Image> getAllImageByTaskId(Long id);
+
     @Query("SELECT * FROM task where id = :id")
     Task getAllTaskById(Long id);
 

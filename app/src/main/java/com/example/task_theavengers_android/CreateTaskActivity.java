@@ -297,7 +297,8 @@ public class CreateTaskActivity extends AppCompatActivity {
             String destinationFilename = getRandomImagePath(imageFormats.get(i));
             String sourceFilename= img.getPath();
             Log.e("IMAGE PATH NAME => ", ""+destinationFilename);
-
+            image.setPath(destinationFilename);
+            images.add(image);
             try {
               File source = new File(getImagePath(img));
               FileInputStream inputStream= new FileInputStream(source);
@@ -306,18 +307,17 @@ public class CreateTaskActivity extends AppCompatActivity {
               dst.transferFrom(src, 0, src.size());
               src.close();
               dst.close();
-              image.setPath(destinationFilename);
-              images.add(image);
+              if(i == imageURI.size() - 1){
+                if (images.size() > 0) {
+                  taskRoomDatabase.taskDao().insertImages(images);
+                }
+              }
             } catch (IOException ex) {
               ex.printStackTrace();
               Log.e("ERROR WHILE SAVING => ", ""+ex.toString());
             }
         }
-        if (images.size() > 0) {
-            taskRoomDatabase.taskDao().insertImages(images);
-        }
-//        List<TaskWithImages> temp = taskRoomDatabase.taskDao().getAllMatchingTasksWithImagesOrderByCreateDate("");
-//        Log.e("TASK WITH IMAGES => ", ""+temp.size());
+
         finish();
 
 

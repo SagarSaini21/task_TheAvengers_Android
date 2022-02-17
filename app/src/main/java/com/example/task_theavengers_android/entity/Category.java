@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 
 /**
  * Author: Vergel dela Cruz
@@ -12,7 +14,7 @@ import androidx.room.PrimaryKey;
  *
  */
 @Entity(tableName = "category")
-public class Category {
+public class Category implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private long id;

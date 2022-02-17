@@ -67,7 +67,7 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
                 addCategory();
                 break;
         }
-        addCategory();
+        //addCategory();
     }
 
     /**
@@ -81,6 +81,12 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
         String categoryName = binding.edtCategory.getText().toString();
         if (categoryName.isEmpty()) {
             Toast.makeText(this, "Please enter category name.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Category existingCategory = taskRoomDatabase.categoryDao().getCategoryMatchingName(categoryName);
+        if (existingCategory !=  null ) {
+            binding.edtCategory.setError("category already exists");
+            binding.edtCategory.requestFocus();
             return;
         }
         binding.edtCategory.setText("");

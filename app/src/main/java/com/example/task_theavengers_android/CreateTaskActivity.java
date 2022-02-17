@@ -1,19 +1,16 @@
 package com.example.task_theavengers_android;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.ActivityNotFoundException;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
@@ -26,39 +23,33 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.MediaController;
 import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.task_theavengers_android.databinding.ActivityCreateTaskBinding;
 import com.example.task_theavengers_android.entity.Category;
 import com.example.task_theavengers_android.entity.Image;
 import com.example.task_theavengers_android.entity.Task;
-import com.example.task_theavengers_android.entity.TaskWithImages;
 import com.example.task_theavengers_android.util.TaskRoomDatabase;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 import java.util.UUID;
 
 public class CreateTaskActivity extends AppCompatActivity {
@@ -66,6 +57,7 @@ public class CreateTaskActivity extends AppCompatActivity {
     Button addTask,addCat,addImages,back,next,recordButton,playButton;
     ImageView backButton;
     private static int REQUEST_MICROPHONE=200;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
     MediaRecorder mediaRecorder;
     MediaPlayer mediaPlayer;
     private boolean isRecording=false;
@@ -120,17 +112,7 @@ public class CreateTaskActivity extends AppCompatActivity {
         });
 
         // Populate spinner with catagories from Room DB
-        spinner_category = findViewById(R.id.spinner_category);
-        List<Category> categories = taskRoomDatabase.categoryDao().getAllCategories();
-        List<String> categoryNames = new ArrayList<>();
-        for (Category cat:categories) {
-            categoryNames.add(cat.getName());
-        }
-        ArrayAdapter<String> categoryNameAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_dropdown_item,
-                categoryNames
-                );
-        spinner_category.setAdapter(categoryNameAdapter);
+        updateSpinner();
 
         // Requesting Mic Permissions
         if(isMicrophonePresent()){
@@ -150,8 +132,24 @@ public class CreateTaskActivity extends AppCompatActivity {
         addImages.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               imageURI.clear();
-               pickImageIntent();
+                AlertDialog.Builder ab = new AlertDialog.Builder(CreateTaskActivity.this);
+                ab.setTitle("Choose image")
+                        .setIcon(R.drawable.ic_image)
+                        .setMessage("Select an option to upload image")
+                        .setNegativeButton("Gallery",((dialog, which) -> {
+                            imageURI.clear();
+                            pickImageIntent();
+                        } ))
+                        .setNeutralButton("Cancel",null)
+                        .setPositiveButton("Camera",(dialog, which) -> {
+                            dispatchTakePictureIntent();
+                        });
+                AlertDialog dialog = ab.create();
+
+                dialog.show();
+
+
+
             }
         });
 
@@ -321,7 +319,7 @@ public class CreateTaskActivity extends AppCompatActivity {
         finish();
 
 
-        //TODO: Insert Items in Table
+
 
     }
 
@@ -426,6 +424,16 @@ public class CreateTaskActivity extends AppCompatActivity {
 
 //-------------------Functions for Picking Images---------------------------
 
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        try {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void pickImageIntent(){
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -461,10 +469,17 @@ public class CreateTaskActivity extends AppCompatActivity {
                     Uri imageUri=data.getData();
                     imageURI.add(imageUri);
                     img.setImageURI(imageURI.get(0));
+
                     position=0;
 
                 }
             }
+        }
+        // -------------for camera capture -------
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            //TODO : show image
+
+            updateImageSwitcherView();
         }
     }
 
@@ -525,6 +540,23 @@ public class CreateTaskActivity extends AppCompatActivity {
       return file.getPath();
     }
 
-
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateSpinner();
+    }
+    private void updateSpinner() {
+        // Populate spinner with catagories from Room DB
+        spinner_category = findViewById(R.id.spinner_category);
+        List<Category> categories = taskRoomDatabase.categoryDao().getAllCategories();
+        List<String> categoryNames = new ArrayList<>();
+        for (Category cat:categories) {
+            categoryNames.add(cat.getName());
+        }
+        ArrayAdapter<String> categoryNameAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_dropdown_item,
+                categoryNames
+        );
+        spinner_category.setAdapter(categoryNameAdapter);
+    }
 }

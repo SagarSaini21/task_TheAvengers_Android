@@ -40,6 +40,9 @@ public interface TaskDao {
     @Query("SELECT * FROM task ORDER BY id")
     List<Task> getAllTasks();
 
+    @Query("SELECT * FROM task ORDER BY id")
+    List<TaskWithImages> getAllTasksWithImages();
+
     @Query("SELECT * FROM task WHERE name LIKE '%' || :search || '%' or description LIKE '%' || :search || '%' ORDER BY name")
     List<Task> getAllMatchingTasksOrderByTitle(String search);
 

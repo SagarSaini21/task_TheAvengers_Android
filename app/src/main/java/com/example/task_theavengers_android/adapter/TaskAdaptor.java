@@ -110,6 +110,10 @@ public class TaskAdaptor extends RecyclerView.Adapter<TaskAdaptor.ViewHolder> {
           }
         });
     }
+    public void filterList(List<TaskWithImages> filteredNotesList){
+        taskList = filteredNotesList;
+        notifyDataSetChanged();
+    }
 
     @Override
     public int getItemCount() {

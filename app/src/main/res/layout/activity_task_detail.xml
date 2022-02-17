@@ -15,7 +15,6 @@
         android:layout_height="match_parent"
         tools:context=".TaskDetailActivity">
 
-
         <LinearLayout
             android:id="@+id/ll_back"
             android:layout_width="50dp"
@@ -93,6 +92,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ll_delete" />
+
         <LinearLayout
             android:id="@+id/ll_play_audio"
             android:layout_width="0dp"

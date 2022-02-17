@@ -23,20 +23,20 @@ public interface SubTaskDAO {
     List<SubTask> getAllSubTasks();
 
 
-   // @Query("SELECT * FROM subtask WHERE subtaskId = subtaskId")
+    // @Query("SELECT * FROM subtask WHERE subtaskId = subtaskId")
     //List<SubTask> findSubTaskForTask(final int subtaskId);
 
-    @Query("UPDATE SubTask SET subTaskTitle = :subTaskTitle")
-    void update(String subTaskTitle);
-
-    @Delete
-    void delete(SubTask subTask);
-
+//    @Query("UPDATE SubTask SET subTaskTitle = :subTaskTitle")
+//    void update(String subTaskTitle);
+//
+//    @Delete
+//    void delete(SubTask subTask);
+//
     @Query("SELECT * FROM SubTask  WHERE id = :id ORDER BY subtaskId DESC")
-    public List<TaskWithSubtask> loadTaskWithSubTask(long id);
-
-    @Query("SELECT * FROM SubTask WHERE id = :id ORDER BY subtaskId DESC")
-    List<SubTask> getAllTaskWithSubtask(long id);
+    public List<SubTask> loadTaskWithSubTask(long id);
+//
+//    @Query("SELECT * FROM SubTask WHERE id = :id ORDER BY subtaskId DESC")
+//    List<SubTask> getAllTaskWithSubtask(long id);
 
 
 

@@ -11,6 +11,8 @@ import android.app.DatePickerDialog;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
@@ -38,9 +40,18 @@ import com.example.task_theavengers_android.entity.Task;
 import com.example.task_theavengers_android.entity.TaskWithImages;
 import com.example.task_theavengers_android.util.TaskRoomDatabase;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -56,10 +67,12 @@ public class CreateTaskActivity extends AppCompatActivity {
     MediaPlayer mediaPlayer;
     private boolean isRecording=false;
     private ActivityCreateTaskBinding binding;
+    String audioFilePath;
 
     // Variables for images
     ImageSwitcher img;
     private ArrayList<Uri> imageURI;
+    private ArrayList<String> imageFormats = new ArrayList<String>();
     private static final int PICK_IMAGES_CODE=0;
     int position = 0;
 
@@ -76,7 +89,7 @@ public class CreateTaskActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         // Get Singleton class of Task Room DB
         taskRoomDatabase = TaskRoomDatabase.getInstance(this);
-
+        audioFilePath = getFilePath();
         title=findViewById(R.id.edt_title);
         backButton = findViewById(R.id.img_back);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -194,7 +207,7 @@ public class CreateTaskActivity extends AppCompatActivity {
                    mediaRecorder = new MediaRecorder();
                    mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
                    mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-                   mediaRecorder.setOutputFile(getFilePath());
+                   mediaRecorder.setOutputFile(audioFilePath);
                    mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
                    mediaRecorder.prepare();
                    mediaRecorder.start();
@@ -203,6 +216,7 @@ public class CreateTaskActivity extends AppCompatActivity {
                    Toast.makeText(CreateTaskActivity.this, "Recording Started...", Toast.LENGTH_SHORT).show();
                }catch(Exception e){
                    e.printStackTrace();
+                   Log.e("AUDIO ERROR => ", ""+e.toString());
                    Toast.makeText(CreateTaskActivity.this, "error", Toast.LENGTH_SHORT).show();
                }
 
@@ -217,13 +231,14 @@ public class CreateTaskActivity extends AppCompatActivity {
             try {
                 mediaPlayer = new MediaPlayer();
                 Log.e("AUDIO PATH => ", ""+getFilePath());
-                mediaPlayer.setDataSource(getFilePath());
+                mediaPlayer.setDataSource(audioFilePath);
                 mediaPlayer.prepare();
                 mediaPlayer.start();
 
             }catch (Exception e)
             {
                 e.printStackTrace();
+                Log.e("AUDIO ERROR => ", ""+e.toString());
             }
 
         }
@@ -266,18 +281,42 @@ public class CreateTaskActivity extends AppCompatActivity {
             finalDueDate = format.parse(dueDate);
         } catch (Exception ex) {}
         //vergel
-        String audioPath = getFilePath();
-        Log.e("AUDIO PATH => ", ""+audioPath);
+        String audioPath = audioFilePath;
         Task task = new Task(titleTemp,descTemp,
                 new Date(), finalDueDate, cat, false , audioPath);
         long taskId = taskRoomDatabase.taskDao().insertTask(task);
         List<Image> images = new ArrayList<>();
-        for (Uri img:imageURI) {
+        for (int i = 0; i < imageURI.size(); i++) {
+            Uri img = imageURI.get(i);
             Image image = new Image();
             image.setImage_task_id(taskId);
-            image.setPath(img.getPath());
             Log.e("IMAGE PATH => ", ""+img.getPath());
-            images.add(image);
+            String imagePath = getRandomImagePath(imageFormats.get(i));
+            String sourceFilename= img.getPath();
+            Log.e("IMAGE PATH NAME => ", ""+imagePath);
+            BufferedInputStream bis = null;
+            BufferedOutputStream bos = null;
+
+            try {
+              bis = new BufferedInputStream(new FileInputStream(sourceFilename));
+              bos = new BufferedOutputStream(new FileOutputStream(imagePath, false));
+              byte[] buf = new byte[1024];
+              bis.read(buf);
+              do {
+                bos.write(buf);
+              } while(bis.read(buf) != -1);
+            } catch (IOException e) {
+              e.printStackTrace();
+            } finally {
+              try {
+                if (bis != null) bis.close();
+                if (bos != null) bos.close();
+                image.setPath(imagePath);
+                images.add(image);
+              } catch (IOException e) {
+                    e.printStackTrace();
+              }
+            }
         }
         if (images.size() > 0) {
             taskRoomDatabase.taskDao().insertImages(images);
@@ -389,8 +428,15 @@ public class CreateTaskActivity extends AppCompatActivity {
             if(resultCode == Activity.RESULT_OK) {
                 if(data.getClipData() != null) {
                     int count = data.getClipData().getItemCount();
+                    if(imageFormats != null && imageFormats.size() > 0){
+                      imageFormats.clear();
+                    }
                     for(int i = 0; i < count; i++) {
                         Uri imageUri = data.getClipData().getItemAt(i).getUri();
+                        // data.getClipData().getItemAt()
+                        String format = getContentResolver().getType(imageUri);
+                        // Log.e("FORMAT => ", ""+format.substring(format.lastIndexOf("/") + 1));
+                        imageFormats.add("."+format.substring(format.lastIndexOf("/") + 1));
                         imageURI.add(imageUri);
                     }
                     if(count > 0){
@@ -440,13 +486,12 @@ public class CreateTaskActivity extends AppCompatActivity {
 
     private void getMicPerm()
     {
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-
+        if (ContextCompat.checkSelfPermission(this,Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED &&
+          ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+        ) {
             ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.RECORD_AUDIO},
+                    new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     REQUEST_MICROPHONE);
-
         }
     }
     private String getFilePath()
@@ -454,8 +499,17 @@ public class CreateTaskActivity extends AppCompatActivity {
         String id = UUID.randomUUID().toString();
         ContextWrapper contextWrapper = new ContextWrapper(getApplicationContext());
         File musicDirectory = contextWrapper.getExternalFilesDir(Environment.DIRECTORY_MUSIC);
-        File file = new File(musicDirectory,"testname" + id +".mp3");
+        File file = new File(musicDirectory,"testname" + id +".3gp");
         return file.getPath();
+    }
+
+    private String getRandomImagePath(String format)
+    {
+      String id = UUID.randomUUID().toString();
+      ContextWrapper contextWrapper = new ContextWrapper(getApplicationContext());
+      File musicDirectory = contextWrapper.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+      File file = new File(musicDirectory,"testname" + id + format);
+      return file.getPath();
     }
 
 

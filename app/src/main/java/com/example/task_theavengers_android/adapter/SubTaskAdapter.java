@@ -1,5 +1,6 @@
 package com.example.task_theavengers_android.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.task_theavengers_android.R;
+import com.example.task_theavengers_android.entity.SubTask;
+import com.example.task_theavengers_android.entity.TaskWithImages;
 import com.example.task_theavengers_android.entity.TaskWithSubtask;
 import com.example.task_theavengers_android.util.SubTaskClickListener;
 
@@ -19,10 +22,10 @@ import java.util.List;
 
 public class SubTaskAdapter extends RecyclerView.Adapter<SubTaskViewHolder>{
     Context context;
-    List<TaskWithSubtask> subTaskList;
+    List<SubTask> subTaskList;
     SubTaskClickListener listener;
 
-    public SubTaskAdapter(Context context, List<TaskWithSubtask> subTaskList, SubTaskClickListener listener) {
+    public SubTaskAdapter(Context context, List<SubTask> subTaskList, SubTaskClickListener listener) {
         this.context = context;
         this.subTaskList = subTaskList;
         this.listener = listener;
@@ -35,24 +38,24 @@ public class SubTaskAdapter extends RecyclerView.Adapter<SubTaskViewHolder>{
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SubTaskViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SubTaskViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         try{
             if (subTaskList!=null) {
-                holder.txtSubTask.setText(subTaskList.get(position).subTaskList.get(position).getSubTaskTitle());
+                holder.txtSubTask.setText(subTaskList.get(position).getSubTaskTitle());
 
 
                 holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        listener.onClick(subTaskList.get(position).subTaskList.get(holder.getAdapterPosition()));
+                        // listener.onClick(subTaskList.get(position).subTaskList.get(holder.getAdapterPosition()));
 
                     }
                 });
                 holder.imgDelete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        listener.onClickDelete(subTaskList.get(position).subTaskList.get(holder.getAdapterPosition()),holder.imgDelete);
+                        // listener.onClickDelete(subTaskList.get(position).subTaskList.get(holder.getAdapterPosition()),holder.imgDelete);
                     }
                 });
             }
@@ -75,7 +78,6 @@ class SubTaskViewHolder extends RecyclerView.ViewHolder {
 
     public SubTaskViewHolder(@NonNull View itemView) {
         super(itemView);
-
         txtSubTask = itemView.findViewById(R.id.txt_sub_task);
         imgDelete = itemView.findViewById(R.id.img_delete);
         relativeLayout = itemView.findViewById(R.id.relative_layout);

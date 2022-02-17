@@ -3,6 +3,7 @@ package com.example.task_theavengers_android.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.GradientDrawable;
 import android.util.Log;
@@ -96,6 +97,18 @@ public class TaskAdaptor extends RecyclerView.Adapter<TaskAdaptor.ViewHolder> {
           holder.progressBar.setProgress(25);
           holder.progressBar.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.OVERLAY);
         }
+
+        // click event
+        holder.taskContainer.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            Intent intent = new Intent(context, TaskDetailActivity.class);
+            //pass the particular item
+            intent.putExtra("id", taskList.get(position).task.getId());
+            // Log.e("TASK IN ADAPTOR => ", ""+taskList.get(position).task.getName()+"-"+taskList.get(position).task.getId());
+            (context).startActivity(intent);
+          }
+        });
     }
 
     @Override
@@ -124,10 +137,7 @@ public class TaskAdaptor extends RecyclerView.Adapter<TaskAdaptor.ViewHolder> {
 
       @Override
       public void onClick(View v) {
-          Intent intent = new Intent(context, TaskDetailActivity.class);
-          //pass the particular item
-          intent.putExtra("task", task);
-          (context).startActivity(intent);
+
       }
     }
 

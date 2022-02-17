@@ -19,8 +19,9 @@ public class TaskWithImages implements Serializable {
             entityColumn = "image_task_id"
     )
 
-
     public List<Image> images;
+
+    @Relation(parentColumn = "id", entityColumn = "id", entity = SubTask.class)
     public List<SubTask> subTaskList;
 
     public TaskWithImages(Task task, List<Image> images, List<SubTask> subTaskList) {
@@ -28,4 +29,28 @@ public class TaskWithImages implements Serializable {
         this.images = images;
         this.subTaskList = subTaskList;
     }
+
+  public Task getTask() {
+    return task;
+  }
+
+  public List<Image> getImages() {
+    return images;
+  }
+
+  public List<SubTask> getSubTaskList() {
+    return subTaskList;
+  }
+
+  public void setTask(Task task) {
+    this.task = task;
+  }
+
+  public void setImages(List<Image> images) {
+    this.images = images;
+  }
+
+  public void setSubTaskList(List<SubTask> subTaskList) {
+    this.subTaskList = subTaskList;
+  }
 }

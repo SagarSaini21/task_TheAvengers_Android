@@ -18,16 +18,25 @@ public class SubTask implements Serializable {
     @ColumnInfo(name = "subTaskTitle")
     String subTaskTitle;
 
-    public SubTask(int subtaskId, int id, String subTaskTitle) {
-        this.subtaskId = subtaskId;
+    @ColumnInfo(name = "subTaskStatus")
+    Boolean subTaskStatus;
+
+    public SubTask(Long id, String subTaskTitle) {
         this.id = id;
+        this.subTaskStatus = false;
         this.subTaskTitle = subTaskTitle;
     }
 
-    public SubTask() {
-    }
 
-    public long getSubtaskId() {
+  public Boolean getSubTaskStatus() {
+    return subTaskStatus;
+  }
+
+  public void setSubTaskStatus(Boolean subTaskStatus) {
+    this.subTaskStatus = subTaskStatus;
+  }
+
+  public long getSubtaskId() {
         return subtaskId;
     }
 

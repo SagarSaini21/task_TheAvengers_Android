@@ -7,6 +7,7 @@ import androidx.room.Transaction;
 
 import com.example.task_theavengers_android.entity.Category;
 import com.example.task_theavengers_android.entity.Image;
+import com.example.task_theavengers_android.entity.SubTask;
 import com.example.task_theavengers_android.entity.Task;
 import com.example.task_theavengers_android.entity.TaskWithImages;
 
@@ -28,6 +29,9 @@ public interface TaskDao {
     @Insert
     void insertImages(List<Image> images);
 
+    @Insert
+    void insertSubTasks(List<SubTask> subTasks);
+
     @Query("DELETE FROM task")
     void deleteAllTasks();
 
@@ -40,15 +44,20 @@ public interface TaskDao {
     @Query("SELECT * FROM task ORDER BY id")
     List<Task> getAllTasks();
 
+    @Query("SELECT * FROM task where id = :id")
+    Task getAllTaskById(Long id);
+
     @Query("SELECT * FROM task ORDER BY id")
     List<TaskWithImages> getAllTasksWithImages();
+
+    @Query("SELECT * FROM task where id = :id")
+    TaskWithImages getTaskWithImagesById(Long id);
 
     @Query("SELECT * FROM task WHERE name LIKE '%' || :search || '%' or description LIKE '%' || :search || '%' ORDER BY name")
     List<Task> getAllMatchingTasksOrderByTitle(String search);
 
     @Query("SELECT * FROM task WHERE name LIKE '%' || :search || '%' or description LIKE '%' || :search || '%' ORDER BY createDate")
     List<Task> getAllMatchingTasksOrderByCreateDate(String search);
-
 
     @Transaction
     @Query("SELECT * FROM task WHERE name LIKE '%' || :search || '%' or description LIKE '%' || :search || '%' ORDER BY name")

@@ -41,6 +41,9 @@ public interface TaskDao {
     @Query("UPDATE task SET name = :name, description = :description , createDate = :createDate, dueDate = :dueDate, category = :category, completed = :completed WHERE id= :id")
     int updateTask(int id, String name, String description, Date createDate, Date dueDate, String category, boolean completed);
 
+    @Query("UPDATE task SET completed = :completed WHERE id= :id")
+    void updateTaskStatus(Long id, boolean completed);
+
     @Query("SELECT * FROM task ORDER BY id")
     List<Task> getAllTasks();
 

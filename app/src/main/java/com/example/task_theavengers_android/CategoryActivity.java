@@ -67,7 +67,7 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
                 addCategory();
                 break;
         }
-        addCategory();
+        //addCategory();
     }
 
     /**

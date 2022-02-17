@@ -15,8 +15,11 @@
 
   <stroke
     android:color="@color/primary"
-    android:width="2dp"
+    android:width="0dp"
   />
+
+  <solid
+    android:color="@color/primary_100"/>
 
   <size
     android:height="50dp"

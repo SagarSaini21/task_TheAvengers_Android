@@ -16,6 +16,7 @@ import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -226,7 +227,6 @@ public class CreateTaskActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
          add();
-
         }
     });
     }
@@ -258,6 +258,7 @@ public class CreateTaskActivity extends AppCompatActivity {
         } catch (Exception ex) {}
         //vergel
         String audioPath = getFilePath();
+        Log.e("AUDIO PATH => ", ""+audioPath);
         Task task = new Task(titleTemp,descTemp,
                 new Date(), finalDueDate, cat, false , audioPath);
         long taskId = taskRoomDatabase.taskDao().insertTask(task);
@@ -266,12 +267,15 @@ public class CreateTaskActivity extends AppCompatActivity {
             Image image = new Image();
             image.setImage_task_id(taskId);
             image.setPath(img.getPath());
+            Log.e("IMAGE PATH => ", ""+img.getPath());
             images.add(image);
         }
         if (images.size() > 0) {
             taskRoomDatabase.taskDao().insertImages(images);
         }
-        //List<TaskWithImages> temp = taskRoomDatabase.taskDao().getAllMatchingTasksWithImagesOrderByTitle("vergel");
+        List<TaskWithImages> temp = taskRoomDatabase.taskDao().getAllMatchingTasksWithImagesOrderByCreateDate("");
+        Log.e("TASK WITH IMAGES => ", ""+temp.size());
+
 
         //TODO: Insert Items in Table
 

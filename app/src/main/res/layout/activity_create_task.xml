@@ -125,6 +125,7 @@
           android:textColor="@color/primary"
           android:layout_marginEnd="6dp"
           android:textSize="10dp"
+          android:fontFamily="@font/poppins"
           app:layout_constraintStart_toEndOf="@+id/ll_edtCategory"
           app:layout_constraintTop_toBottomOf="@+id/ll_edtTitle"
           tools:ignore="TouchTargetSizeCheck" />
@@ -186,6 +187,7 @@
         android:textSize="12dp"
         android:textAlignment="textEnd"
         android:textColor="@color/black"
+        android:fontFamily="@font/poppins"
         style="?android:spinnerStyle"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -218,6 +220,7 @@
           android:text="Record"
           android:textColor="@color/primary"
           android:layout_marginEnd="5dp"
+          android:fontFamily="@font/poppins"
           app:layout_constraintStart_toEndOf="@+id/ll_edtCategory"
           app:layout_constraintTop_toBottomOf="@+id/ll_edtTitle"
           tools:ignore="TouchTargetSizeCheck" />
@@ -235,6 +238,7 @@
           android:background="@drawable/secondary_button"
           android:text="Play Audio"
           android:textColor="@color/primary"
+          android:fontFamily="@font/poppins"
           app:layout_constraintStart_toEndOf="@+id/ll_edtCategory"
           app:layout_constraintTop_toBottomOf="@+id/ll_edtTitle"
           tools:ignore="TouchTargetSizeCheck" />
@@ -282,7 +286,7 @@
           android:textColor="@color/primary"
           android:textSize="16sp"
           android:layout_marginBottom="2dp"
-          android:fontFamily="@font/poppins_bold"
+          android:fontFamily="@font/poppins"
           app:layout_constraintHorizontal_bias="0.5"
           tools:ignore="TouchTargetSizeCheck" />
 
@@ -291,8 +295,8 @@
           android:layout_width="match_parent"
           android:layout_height="50dp"
           android:background="@drawable/secondary_button"
-          android:elevation="20dp"
           android:text="@string/add_images"
+          android:fontFamily="@font/poppins"
           android:layout_weight="1"
           android:textColor="@color/primary"
           android:layout_marginLeft="10dp"
@@ -310,7 +314,7 @@
           android:text="&gt;"
           android:textColor="@color/primary"
           android:textSize="16sp"
-          android:fontFamily="@font/poppins_bold"
+          android:fontFamily="@font/poppins"
           app:layout_constraintHorizontal_bias="0.5"
           tools:ignore="TouchTargetSizeCheck" />
 

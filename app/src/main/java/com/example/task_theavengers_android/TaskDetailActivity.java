@@ -43,6 +43,10 @@ import com.example.task_theavengers_android.util.TaskRoomDatabase;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -97,7 +101,10 @@ public class TaskDetailActivity extends AppCompatActivity {
             }
             tasks = taskDao.getAllTaskById(taskId);
             binding.txtTaskTitle.setText(tasks.getName());
-            binding.txtCreatedDate.setText(String.valueOf(tasks.getCreateDate()));
+            DateTimeFormatter timeFormatter = DateTimeFormat.longDate();
+            String createdDate = timeFormatter.print(new DateTime(tasks.getCreateDate().getTime()));
+            binding.txtCreatedDate.setText(createdDate);
+            // binding.txtCreatedDate.setText(String.valueOf(tasks.getCreateDate()));
             binding.txtDescription.setText(tasks.getDescription());
             //isOldTask = true;
             taskWithImagesList = taskDao.getAllTasksWithImages();
@@ -217,7 +224,6 @@ public class TaskDetailActivity extends AppCompatActivity {
                 task.setCompleted(true);
                 taskDao.updateTask(task);
                 markCompletedButton.setText("Mark Not Completed");
-                finish();
               }
               else{
                 Toast.makeText(getApplicationContext(), "You have incompleted sub tasks!", Toast.LENGTH_SHORT).show();
@@ -232,7 +238,6 @@ public class TaskDetailActivity extends AppCompatActivity {
               task.setCompleted(false);
               taskDao.updateTask(task);
               markCompletedButton.setText("Mark Completed");
-              finish();
               return;
             }
           }

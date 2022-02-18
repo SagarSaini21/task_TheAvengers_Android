@@ -87,7 +87,7 @@ public class TaskAdaptor extends RecyclerView.Adapter<TaskAdaptor.ViewHolder> {
         Log.e("HOME PAGE - TASK COMPLETED => ", ""+task.task.isCompleted());
         if(task.task.isCompleted()){
           holder.completedStatus.setText("COMPLETED");
-          status_shape.setColor(context.getResources().getColor(R.color.Green));
+          status_shape.setColor(context.getResources().getColor(R.color.light_green));
           holder.completedStatus.setTextColor(Color.WHITE);
         }
         holder.completedStatus.setBackground(status_shape);

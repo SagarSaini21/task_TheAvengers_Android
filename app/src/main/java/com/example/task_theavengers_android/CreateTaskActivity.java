@@ -469,7 +469,7 @@ public class CreateTaskActivity extends AppCompatActivity {
                     Uri imageUri=data.getData();
                     imageURI.add(imageUri);
                     img.setImageURI(imageURI.get(0));
-
+                    updateImageSwitcherView();
                     position=0;
 
                 }

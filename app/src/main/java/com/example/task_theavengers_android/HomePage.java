@@ -72,7 +72,7 @@ public class HomePage extends AppCompatActivity implements PopupMenu.OnMenuItemC
       });
 
       tasksList = taskRoomDatabase.taskDao().getAllTasksWithImages();
-      for (TaskWithImages task : tasksList){
+
         sort.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View view) {
@@ -81,7 +81,7 @@ public class HomePage extends AppCompatActivity implements PopupMenu.OnMenuItemC
         });
 
       }
-    }
+
 
     private void filter(String newText) {
       List<TaskWithImages> filterList = new ArrayList<>();

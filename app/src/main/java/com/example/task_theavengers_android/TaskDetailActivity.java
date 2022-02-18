@@ -281,10 +281,7 @@ public class TaskDetailActivity extends AppCompatActivity {
     public void updateSubTaskStatus(SubTask task){
       if(task != null){
         subTaskDAO.updateStatusChange(task.getSubTaskStatus(), task.getSubtaskId());
-        // Log.e("STATUS", ""+task.getSubTaskStatus());
-        Snackbar snackbar = Snackbar
-          .make(binding.scrollview, "Sub Task status updated", Snackbar.LENGTH_LONG);
-        // Log.e("TASK UPDATE", "Sub Task status updated");
+
         taskWithImages = taskDao.getTaskWithImagesById(taskId);
         updateProgressBar();
       }
@@ -306,13 +303,6 @@ public class TaskDetailActivity extends AppCompatActivity {
     private final SubTaskClickListener subTaskListener = new SubTaskClickListener() {
         @Override
         public void onClick(SubTask subTask) {
-            Snackbar snackbar = Snackbar
-                    .make(binding.scrollview, "subtask completed", Snackbar.LENGTH_LONG);
-            snackbar.show();
-            selectedSubTask = subTask;
-            database.subTaskDAO().delete(selectedSubTask);
-            subTaskList.remove(selectedSubTask);
-            updateRecycler();
 
         }
 

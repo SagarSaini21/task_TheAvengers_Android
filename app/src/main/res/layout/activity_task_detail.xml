@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/scrollview"
-    android:fillViewport="true"
-    android:background="@color/bg"
-    tools:layout_editor_absoluteX="0dp"
-    tools:layout_editor_absoluteY="0dp">
-    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/ll_constraint"
-        android:layout_margin="20dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".TaskDetailActivity">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ll_constraint_details"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="80dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
             android:id="@+id/ll_back"
@@ -214,32 +216,46 @@
                 app:srcCompat="@drawable/ic_add" />
         </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/view_subtasks"
-            android:layout_width="0dp"
-            android:layout_height="250dp"
-            android:layout_marginTop="20dp"
-            android:layout_margin="10dp"
-            tools:listitem="@layout/sub_task_item"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ll_add"/>
 
-        <Button
-            android:id="@+id/btn_mark_completed"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/primary_button"
-            android:textColor="@color/white"
-            android:elevation="20sp"
-            android:text="@string/mark_completed"
+            <androidx.recyclerview.widget.RecyclerView
+                android:scrollbars="vertical"
+                android:id="@+id/view_subtasks"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ll_add"/>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view_subtasks"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+            app:layout_constraintTop_toBottomOf="@+id/ll_constraint_details">
+
+            <Button
+                android:id="@+id/btn_mark_completed"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/primary_button"
+                android:textColor="@color/white"
+                android:elevation="20sp"
+                android:text="@string/mark_completed"/>
+        </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

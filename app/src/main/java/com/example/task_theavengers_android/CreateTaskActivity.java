@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -40,6 +41,7 @@ import com.example.task_theavengers_android.entity.Image;
 import com.example.task_theavengers_android.entity.Task;
 import com.example.task_theavengers_android.util.TaskRoomDatabase;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -63,6 +65,7 @@ public class CreateTaskActivity extends AppCompatActivity {
     private boolean isRecording=false;
     private ActivityCreateTaskBinding binding;
     String audioFilePath;
+    Boolean isFileFromGallery = true;
 
     // Variables for images
     ImageSwitcher img;
@@ -287,18 +290,26 @@ public class CreateTaskActivity extends AppCompatActivity {
                 new Date(), finalDueDate, cat, false , audioPath);
         long taskId = taskRoomDatabase.taskDao().insertTask(task);
         List<Image> images = new ArrayList<>();
+        Log.e("COUNTS: ====", ""+imageURI.size()+"==="+imageFormats.size());
         for (int i = 0; i < imageURI.size(); i++) {
             Uri img = imageURI.get(i);
             Image image = new Image();
             image.setImage_task_id(taskId);
             Log.e("IMAGE PATH => ", ""+img.getPath());
             String destinationFilename = getRandomImagePath(imageFormats.get(i));
+
             String sourceFilename= img.getPath();
             Log.e("IMAGE PATH NAME => ", ""+destinationFilename);
             image.setPath(destinationFilename);
             images.add(image);
             try {
-              File source = new File(getImagePath(img));
+              File source;
+              if(isFileFromGallery){
+                source = new File(getImagePath(img));
+              }
+              else{
+                source = new File(getImagePathCamera(img));
+              }
               FileInputStream inputStream= new FileInputStream(source);
               FileChannel src = inputStream.getChannel();
               FileChannel dst = new FileOutputStream(destinationFilename).getChannel();
@@ -321,6 +332,20 @@ public class CreateTaskActivity extends AppCompatActivity {
 
 
 
+    }
+
+    public String getImagePathCamera(Uri uri) {
+      String path = "";
+      if (getContentResolver() != null) {
+        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+        if (cursor != null) {
+          cursor.moveToFirst();
+          int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+          path = cursor.getString(idx);
+          cursor.close();
+        }
+      }
+      return path;
     }
 
     public String getImagePath(Uri uri){
@@ -446,6 +471,7 @@ public class CreateTaskActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == PICK_IMAGES_CODE) {
             if(resultCode == Activity.RESULT_OK) {
+                isFileFromGallery = true;
                 if(data.getClipData() != null) {
                     int count = data.getClipData().getItemCount();
                     if(imageFormats != null && imageFormats.size() > 0){
@@ -469,18 +495,37 @@ public class CreateTaskActivity extends AppCompatActivity {
                     Uri imageUri=data.getData();
                     imageURI.add(imageUri);
                     img.setImageURI(imageURI.get(0));
+                    String format = getContentResolver().getType(imageUri);
+                    imageFormats.add("."+format.substring(format.lastIndexOf("/") + 1));
                     updateImageSwitcherView();
                     position=0;
-
                 }
             }
         }
         // -------------for camera capture -------
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+          isFileFromGallery = false;
             //TODO : show image
-
+            if(imageFormats != null && imageFormats.size() > 0){
+              imageFormats.clear();
+            }
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
+            Uri tempUri = getImageUri(getApplicationContext(), photo);
+            imageURI.add(tempUri);
+            img.setImageURI(imageURI.get(0));
+            String format = getContentResolver().getType(tempUri);
+            imageFormats.add("."+format.substring(format.lastIndexOf("/") + 1));
+            position = 0;
             updateImageSwitcherView();
         }
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+      ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+      inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+      String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+      return Uri.parse(path);
     }
 
     private void updateImageSwitcherView(){

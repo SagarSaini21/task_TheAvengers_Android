@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -122,6 +123,8 @@ public class TaskDetailActivity extends AppCompatActivity {
               updateProgressBar();
             }
 
+          Log.e("TASK ID IS => ", ""+taskWithImages.task.getId());
+
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -152,13 +155,12 @@ public class TaskDetailActivity extends AppCompatActivity {
         binding.imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent intent = new Intent(TaskDetailActivity.this,HomePage.class);
                 intent.putExtra("task",tasks);
                 setResult(Activity.RESULT_OK,intent);
                 startActivity(intent);
                 finish();
-
+                Log.e("TASK STATUS IN BACK => ", ""+taskWithImages.task.isCompleted());
             }
         });
 
@@ -191,6 +193,7 @@ public class TaskDetailActivity extends AppCompatActivity {
 
 
         markCompletedButton.setOnClickListener(new View.OnClickListener() {
+          @SuppressLint("LongLogTag")
           @Override
           public void onClick(View v) {
             taskWithImages = taskDao.getTaskWithImagesById(taskId);
@@ -200,19 +203,37 @@ public class TaskDetailActivity extends AppCompatActivity {
                 completed++;
               }
             }
-            Log.e("TASK STATUS", ""+taskWithImages.task.isCompleted());
+            Task taskMain = taskDao.getAllTaskById(taskId);
             if(!taskWithImages.task.isCompleted()){
-              if(completed == taskWithImages.subTaskList.size() || taskWithImages.subTaskList.size() <= 0){
-                taskDao.updateTaskStatus(taskId, true);
+
+              if(completed == taskWithImages.subTaskList.size()){
+                Log.e("1 BUTTON CLICK TASK STATUS", ""+taskMain.isCompleted());
+                Log.e("COMPLETED", ""+completed);
+                Log.e("SIZE", ""+taskWithImages.subTaskList.size());
+                Log.e("TASK ID", ""+taskWithImages.task.getId());
+                // taskDao.updateTaskStatus(taskWithImages.task.getId(), true);
+                //taskDao.updateTask(taskId, taskWithImages.task.getName(), taskWithImages.task.getDescription(), taskWithImages.task.getCreateDate(), taskWithImages.task.getDueDate(), taskWithImages.task.getCategory(), true);
+                Task task = taskMain;
+                task.setCompleted(true);
+                taskDao.updateTask(task);
                 markCompletedButton.setText("Mark Not Completed");
+                finish();
               }
               else{
                 Toast.makeText(getApplicationContext(), "You have incompleted sub tasks!", Toast.LENGTH_SHORT).show();
               }
+              return;
             }
             else{
-              taskDao.updateTaskStatus(taskId, false);
+              Log.e(" 2BUTTON CLICK TASK STATUS", ""+taskWithImages.task.isCompleted());
+              // taskDao.updateTaskStatus(taskId, false);
+              // taskDao.updateTask(taskId, taskWithImages.task.getName(), taskWithImages.task.getDescription(), taskWithImages.task.getCreateDate(), taskWithImages.task.getDueDate(), taskWithImages.task.getCategory(), false);
+              Task task = taskMain;
+              task.setCompleted(false);
+              taskDao.updateTask(task);
               markCompletedButton.setText("Mark Completed");
+              finish();
+              return;
             }
           }
         });

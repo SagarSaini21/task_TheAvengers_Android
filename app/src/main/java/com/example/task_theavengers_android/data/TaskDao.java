@@ -4,6 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Transaction;
+import androidx.room.Update;
 
 import com.example.task_theavengers_android.entity.Category;
 import com.example.task_theavengers_android.entity.Image;
@@ -35,13 +36,16 @@ public interface TaskDao {
     @Query("DELETE FROM task")
     void deleteAllTasks();
 
+    @Update
+    void updateTask(Task task);
+
     @Query("DELETE FROM task where id = :id")
     void deleteTask(long id);
 
     @Query("UPDATE task SET name = :name, description = :description , createDate = :createDate, dueDate = :dueDate, category = :category, completed = :completed WHERE id= :id")
-    int updateTask(int id, String name, String description, Date createDate, Date dueDate, String category, boolean completed);
+    int updateTask(Long id, String name, String description, Date createDate, Date dueDate, String category, boolean completed);
 
-    @Query("UPDATE task SET completed = :completed WHERE id= :id")
+    @Query("UPDATE task SET completed = :completed WHERE id = :id")
     void updateTaskStatus(Long id, boolean completed);
 
     @Query("SELECT * FROM task ORDER BY id")
@@ -58,6 +62,9 @@ public interface TaskDao {
 
     @Query("SELECT * FROM task where id = :id")
     TaskWithImages getTaskWithImagesById(Long id);
+
+    @Query("SELECT * FROM task")
+    List<TaskWithImages> getAllTasksWithSubTasks();
 
     @Query("SELECT * FROM task WHERE name LIKE '%' || :search || '%' or description LIKE '%' || :search || '%' ORDER BY name")
     List<Task> getAllMatchingTasksOrderByTitle(String search);

@@ -22,6 +22,7 @@ import com.example.task_theavengers_android.HomePage;
 import com.example.task_theavengers_android.R;
 import com.example.task_theavengers_android.TaskDetailActivity;
 import com.example.task_theavengers_android.entity.Category;
+import com.example.task_theavengers_android.entity.Task;
 import com.example.task_theavengers_android.entity.TaskWithImages;
 import com.example.task_theavengers_android.util.CategoryColor;
 import com.example.task_theavengers_android.util.TaskRoomDatabase;
@@ -46,6 +47,7 @@ public class TaskAdaptor extends RecyclerView.Adapter<TaskAdaptor.ViewHolder> {
     private List<TaskWithImages> taskList;
     private List<Category> categoryList;
     private TaskRoomDatabase taskRoomDatabase;
+    private List<TaskWithImages> taskWithImages;
     private Context  context;
     TaskWithImages task;
 
@@ -77,9 +79,14 @@ public class TaskAdaptor extends RecyclerView.Adapter<TaskAdaptor.ViewHolder> {
         holder.due.setText(Days.daysBetween(date.toLocalDate(), endInstant.toLocalDate()).getDays() + " days left");
         GradientDrawable status_shape =  new GradientDrawable();
         status_shape.setCornerRadius(20);
+        holder.completedStatus.setText("INCOMPLETE");
         status_shape.setColor(context.getResources().getColor(R.color.progress_bg));
         holder.completedStatus.setTextColor(Color.GRAY);
+        Task task_main = taskRoomDatabase.taskDao().getAllTaskById(task.task.getId());
+        Log.e("HOME PAGE - TASK DETAILS *** => ", ""+task_main.isCompleted()+"="+task_main.getId()+"="+task_main.getName());
+        Log.e("HOME PAGE - TASK COMPLETED => ", ""+task.task.isCompleted());
         if(task.task.isCompleted()){
+          holder.completedStatus.setText("COMPLETED");
           status_shape.setColor(context.getResources().getColor(R.color.Green));
           holder.completedStatus.setTextColor(Color.WHITE);
         }
@@ -94,7 +101,8 @@ public class TaskAdaptor extends RecyclerView.Adapter<TaskAdaptor.ViewHolder> {
           shape.setColor(color);
           holder.colorBtn.setBackground(shape);
           // set the progress bar color
-          holder.progressBar.setProgress(25);
+          int progress_value = calculateProgress(taskRoomDatabase.taskDao().getTaskWithImagesById(task.task.getId()));
+          holder.progressBar.setProgress(progress_value);
           holder.progressBar.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.OVERLAY);
         }
 
@@ -155,4 +163,32 @@ public class TaskAdaptor extends RecyclerView.Adapter<TaskAdaptor.ViewHolder> {
       }
       return category;
     }
+
+//  private void updateProgressBar(){
+//    Category category = getCategoryByName(taskWithImages.task.getCategory());
+//    int color = CategoryColor.getColor(getApplicationContext(), category);
+//    progressBar.setProgress(calculateProgress());
+//    progressBar.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.OVERLAY);
+//  }
+
+  private int calculateProgress(TaskWithImages task){
+    Double value = 0.0;
+    if(task != null){
+      int count = task.subTaskList.size();
+      int completed = 0;
+      for(int i = 0; i < count; i++){
+        if(task.subTaskList.get(i).getSubTaskStatus()){
+          completed++;
+        }
+      }
+      if(count > 0){
+        value = (Double) (Double.valueOf(completed)/Double.valueOf(count)) * 100;
+        Log.e("COUNTS", ""+count+"/"+completed+"="+value);
+        if(completed > 0){
+
+        }
+      }
+    }
+    return Integer.valueOf(value.intValue());
+  }
 }

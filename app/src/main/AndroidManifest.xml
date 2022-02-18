@@ -16,13 +16,7 @@
         android:theme="@style/Theme.Task_TheAvengers_Android">
         <activity
             android:name=".HomePage"
-          android:exported="true" >
-
-          <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-
-            <category android:name="android.intent.category.LAUNCHER" />
-          </intent-filter>
+          android:exported="false" >
 
         </activity>
         <activity
@@ -35,7 +29,15 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="false" />
+          android:exported="true" >
+
+          <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+          </intent-filter>
+
+        </activity>
         <activity
             android:name=".CategoryActivity"
             android:exported="false">

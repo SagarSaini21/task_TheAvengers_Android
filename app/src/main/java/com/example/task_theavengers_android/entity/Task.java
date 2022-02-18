@@ -66,7 +66,7 @@ public class Task implements Serializable {
         this.createDate = createDate;
         this.dueDate = dueDate;
         this.category = category;
-        this.completed = false;
+        this.completed = completed;
         this.audioPath = audioPath;
     }
 

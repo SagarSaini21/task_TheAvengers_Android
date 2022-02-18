@@ -212,4 +212,10 @@ public class HomePage extends AppCompatActivity implements PopupMenu.OnMenuItemC
     }
 
   }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    prepareTasks();
+  }
 }
